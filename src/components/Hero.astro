@@ -1,6 +1,5 @@
 ---
-import { Image } from 'astro:assets';
-import gropius from '../assets/work/espaciogropius.jpg';
+import Field from './Field.astro';
 
 interface Props {
   hero: {
@@ -10,8 +9,6 @@ interface Props {
     sub: string;
     ctaPrimary: string;
     ctaSecondary: string;
-    imageAlt: string;
-    imageCaption: string;
   };
   base: string;
 }
@@ -25,6 +22,7 @@ let i = 0;
 ---
 
 <section class="hero" data-lit>
+  <Field />
   <div class="hero__glow" aria-hidden="true"></div>
 
   <div class="container hero__inner">
@@ -63,45 +61,26 @@ let i = 0;
       </div>
     </div>
   </div>
-
-  <!-- La captura se sale del contenedor y pisa la sección siguiente: es lo que
-       rompe la grilla y le da profundidad a la página. -->
-  <div class="container hero__stageWrap">
-    <figure class="hero__stage shell reveal" data-tilt="5">
-      <div class="core hero__frame">
-        <Image
-          src={gropius}
-          alt={hero.imageAlt}
-          widths={[640, 960, 1320]}
-          sizes="(min-width: 1100px) 1100px, 94vw"
-          format="webp"
-          quality={72}
-          loading="eager"
-          fetchpriority="high"
-        />
-        <span class="hero__glare" aria-hidden="true"></span>
-      </div>
-      <figcaption class="hero__cap mono">{hero.imageCaption}</figcaption>
-    </figure>
-  </div>
 </section>
 
 <style>
   .hero {
     position: relative;
     isolation: isolate;
-    padding-top: var(--sp-6);
+    display: grid;
+    align-content: center;
+    min-height: min(86dvh, 800px);
+    padding-block: var(--sp-6) var(--sp-7);
   }
 
-  /* El resplandor sigue al cursor en toda la sección. Es el gesto que se repite
-     después en cada tarjeta. */
+  /* El resplandor sigue al cursor. Es el mismo gesto que se repite después en
+     cada tarjeta. */
   .hero__glow {
     position: absolute;
     inset: -20% 0 0;
     z-index: -1;
-    background:
-      radial-gradient(620px circle at var(--px) var(--py), rgba(240, 166, 63, 0.13), transparent 62%),
-      radial-gradient(900px circle at 12% 0%, rgba(240, 166, 63, 0.07), transparent 60%);
+    background: radial-gradient(560px circle at var(--px) var(--py),
+                rgba(240, 166, 63, 0.12), transparent 62%);
     transition: background 0.25s linear;
   }
 
@@ -160,63 +139,12 @@ let i = 0;
 
   .hero__actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
 
-  /* Escenario de la captura. Va pegado al bloque de texto: separado se lee
-     como un elemento suelto, no como parte del hero. */
-  .hero__stageWrap { margin-top: var(--sp-5); }
-
-  .hero__stage {
-    margin: 0;
-    max-width: 1100px;
-    margin-inline: auto;
-  }
-
-  .hero__frame { position: relative; }
-
-  /* Recorte cinematográfico: la captura completa es 4:3 y queda demasiado alta,
-     así que se muestra la franja superior, que es donde está el contenido. */
-  .hero__frame img {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    object-position: top center;
-  }
-
   @media (min-width: 900px) {
-    .hero__frame img { aspect-ratio: 21 / 9; }
-  }
-
-  /* Brillo que barre la superficie, posicionado por el mismo puntero. */
-  .hero__glare {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: radial-gradient(420px circle at var(--px) var(--py),
-                rgba(255, 255, 255, 0.16), transparent 65%);
-    mix-blend-mode: overlay;
-    opacity: 0;
-    transition: opacity 0.6s var(--ease);
-  }
-
-  .hero__stage:hover .hero__glare { opacity: 1; }
-
-  .hero__cap {
-    margin-top: var(--sp-3);
-    padding-inline: 0.5rem;
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-  }
-
-  @media (min-width: 900px) {
-    .hero { padding-top: var(--sp-7); }
     .hero__row {
       grid-template-columns: 1fr auto;
       align-items: end;
       gap: var(--sp-6);
-      margin-top: var(--sp-5);
+      margin-top: var(--sp-6);
     }
-    .hero__stageWrap { margin-top: var(--sp-5); margin-bottom: calc(var(--sp-7) * -1); }
-    .hero__stage { transform: perspective(1400px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); }
   }
 </style>

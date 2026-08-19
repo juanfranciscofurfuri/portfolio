@@ -25,10 +25,12 @@ const { items } = Astro.props;
 
 <style>
   /* Deja aire arriba porque la captura del hero se le monta encima. */
+  /* Sin borde: un degradado que nace de la nada y se apaga. La página tiene
+     que leerse como una superficie continua, no como bloques apilados. */
   .proof {
-    padding-top: calc(var(--sp-7) + var(--sp-6));
-    padding-bottom: var(--sp-6);
-    border-bottom: 1px solid var(--line);
+    position: relative;
+    padding-block: var(--sp-6);
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.45) 45%, transparent);
   }
 
   .proof__grid {

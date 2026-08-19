@@ -1,0 +1,107 @@
+---
+// Capa de fondo fija para todo el sitio.
+//
+// Tres resplandores ámbar que derivan lento sobre el negro, más un cuarto que se
+// desplaza con el scroll donde el navegador lo soporta. Son gradientes radiales,
+// no desenfoques: un `filter: blur` de este tamaño obliga a la GPU a repintar en
+// cada frame y hunde el rendimiento en el celular.
+//
+// Solo anima `transform`, está fuera del flujo y no recibe eventos.
+---
+
+<div class="aurora" aria-hidden="true">
+  <span class="aurora__blob aurora__blob--a"></span>
+  <span class="aurora__blob aurora__blob--b"></span>
+  <span class="aurora__blob aurora__blob--c"></span>
+  <span class="aurora__scan"></span>
+</div>
+
+<style>
+  .aurora {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .aurora__blob {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    will-change: transform;
+  }
+
+  .aurora__blob--a {
+    top: -30vh;
+    left: -10vw;
+    width: 80vw;
+    height: 80vw;
+    background: radial-gradient(circle, rgba(240, 166, 63, 0.13), transparent 62%);
+  }
+
+  .aurora__blob--b {
+    top: 25vh;
+    right: -25vw;
+    width: 70vw;
+    height: 70vw;
+    background: radial-gradient(circle, rgba(255, 138, 60, 0.09), transparent 64%);
+  }
+
+  .aurora__blob--c {
+    bottom: -35vh;
+    left: 20vw;
+    width: 90vw;
+    height: 90vw;
+    background: radial-gradient(circle, rgba(120, 96, 190, 0.055), transparent 66%);
+  }
+
+  /* Banda tenue que baja con el scroll: da la sensación de que la página es una
+     superficie que se recorre, no bloques apilados. */
+  .aurora__scan {
+    position: absolute;
+    inset: -20% -10%;
+    display: block;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(240, 166, 63, 0.05) 45%,
+      transparent 90%
+    );
+    opacity: 0.9;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .aurora__blob--a { animation: floatA 34s ease-in-out infinite alternate; }
+    .aurora__blob--b { animation: floatB 44s ease-in-out infinite alternate; }
+    .aurora__blob--c { animation: floatC 52s ease-in-out infinite alternate; }
+
+    @keyframes floatA {
+      from { transform: translate3d(0, 0, 0) scale(1); }
+      to   { transform: translate3d(9vw, 7vh, 0) scale(1.12); }
+    }
+    @keyframes floatB {
+      from { transform: translate3d(0, 0, 0) scale(1.08); }
+      to   { transform: translate3d(-11vw, -6vh, 0) scale(1); }
+    }
+    @keyframes floatC {
+      from { transform: translate3d(0, 0, 0) scale(1); }
+      to   { transform: translate3d(6vw, -9vh, 0) scale(1.15); }
+    }
+
+    /* Animación guiada por el scroll: donde existe, la banda recorre la página
+       exactamente al ritmo del que scrollea. Donde no, queda quieta y no pasa
+       nada. */
+    @supports (animation-timeline: scroll()) {
+      .aurora__scan {
+        animation: scan linear both;
+        animation-timeline: scroll(root block);
+      }
+      @keyframes scan {
+        from { transform: translateY(-30%); }
+        to   { transform: translateY(30%); }
+      }
+    }
+  }
+</style>

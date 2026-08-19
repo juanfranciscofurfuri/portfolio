@@ -2,6 +2,7 @@
 import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
 import '../styles/tokens.css';
+import Aurora from '../components/Aurora.astro';
 
 interface Props {
   lang: 'en' | 'es';
@@ -67,6 +68,8 @@ const person = {
   </head>
   <body>
     <a class="skip" href="#main">{lang === 'en' ? 'Skip to content' : 'Ir al contenido'}</a>
+    <Aurora />
+    <div class="progress" aria-hidden="true"></div>
     <slot />
 
     <script>
@@ -163,6 +166,33 @@ const person = {
         font-weight: 500;
       }
       .skip:focus { left: var(--sp-4); }
+
+      /* Barra de progreso: la escribe el propio scroll del navegador, sin
+         JavaScript. Donde no existe la propiedad, simplemente no aparece. */
+      .progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        z-index: 50;
+        transform-origin: 0 50%;
+        transform: scaleX(0);
+        background: linear-gradient(90deg, var(--accent-deep), var(--accent-hot));
+      }
+
+      @supports (animation-timeline: scroll()) {
+        @media (prefers-reduced-motion: no-preference) {
+          .progress {
+            animation: grow linear both;
+            animation-timeline: scroll(root block);
+          }
+          @keyframes grow {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+          }
+        }
+      }
     </style>
   </body>
 </html>

@@ -1,0 +1,188 @@
+---
+// Superficie líquida en perspectiva, dibujada en canvas 2D.
+//
+// Es una grilla de puntos sobre un plano que se aleja hacia el horizonte, con
+// una onda que la recorre. Los puntos se achican y se apagan con la distancia,
+// que es lo que da la sensación de profundidad. El cursor levanta la zona que
+// tiene cerca.
+//
+// Canvas 2D y no WebGL a propósito: son mil puntos por cuadro, cuesta menos que
+// cargar una librería de 3D para dibujar puntos.
+---
+
+<canvas class="field" aria-hidden="true"></canvas>
+
+<script>
+  const canvas = document.querySelector<HTMLCanvasElement>('.field');
+  if (canvas) {
+    const ctx = canvas.getContext('2d', { alpha: true })!;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    // En táctil se dibuja un cuadro y listo: animar por cuadro gasta batería y
+    // en un teléfono modesto se nota. El fondo sigue vivo con los resplandores.
+    const animate = fine && !reduced;
+
+    const COLS = 64;
+    const ROWS = 34;
+    const FOCAL = 1.35;
+
+    let w = 0, h = 0, dpr = 1;
+    let mx = 0.5, my = 0.5;   // puntero, normalizado
+    let tx = 0.5, ty = 0.5;   // valor perseguido, para que no salte
+    let t = 0;
+    let raf = 0;
+    let visible = true;
+
+    function resize() {
+      const r = canvas.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = Math.max(1, Math.round(r.width));
+      h = Math.max(1, Math.round(r.height));
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+
+      // El puntero se persigue con suavizado: el movimiento tiene masa.
+      mx += (tx - mx) * 0.05;
+      my += (ty - my) * 0.05;
+
+      const cx = w * 0.5 + (mx - 0.5) * w * 0.05;
+      const horizon = h * 0.4;
+      const scale = Math.max(w, 620) * 0.62;
+      const calm = w < 700 ? 0.5 : 1;
+
+      // Se calcula la malla entera antes de dibujar: hace falta tener la fila
+      // completa para poder unir sus puntos con una línea.
+      const pts = [];
+
+      for (let row = 0; row < ROWS; row++) {
+        const v = row / (ROWS - 1);        // 0 cerca, 1 lejos
+        const z = 0.5 + v * v * 7;
+        const sp = FOCAL / z;
+        const line = [];
+
+        for (let col = 0; col < COLS; col++) {
+          const u = (col / (COLS - 1)) * 2 - 1;
+
+          // Tres ondas cruzadas: ninguna cierra con la otra, así que la
+          // superficie nunca repite el mismo patrón.
+          const wave =
+            Math.sin(u * 2.4 + t * 0.9) * 0.05 +
+            Math.sin(v * 5.6 - t * 0.62) * 0.042 +
+            Math.sin((u + v * 1.7) * 3.8 + t * 0.37) * 0.028;
+
+          // El cursor levanta la zona que tiene cerca
+          const du = u - (mx - 0.5) * 2.2;
+          const dv = v - (1 - my) * 0.9;
+          const lift = 0.1 / (1 + (du * du + dv * dv) * 10);
+
+          const px = cx + u * 2.3 * sp * scale;
+          const py = horizon + (0.34 + wave + lift) * sp * scale;
+
+          line.push({ x: px, y: py, d: 1 - v, lift });
+        }
+        pts.push({ line, sp });
+      }
+
+      // Filas: la línea es lo que convierte una nube de puntos en una superficie
+      for (let row = 0; row < ROWS; row++) {
+        const { line } = pts[row];
+        const d = line[0].d;
+        ctx.beginPath();
+        for (let col = 0; col < COLS; col++) {
+          const pt = line[col];
+          col === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y);
+        }
+        ctx.strokeStyle = `rgba(240, 166, 63, ${((0.045 + d * d * 0.34) * calm).toFixed(4)})`;
+        ctx.lineWidth = Math.max(0.55, d * 1.3);
+        ctx.stroke();
+      }
+
+      // Columnas cada cuatro: dan la profundidad sin cerrar la malla del todo
+      for (let col = 0; col < COLS; col += 4) {
+        ctx.beginPath();
+        for (let row = 0; row < ROWS; row++) {
+          const pt = pts[row].line[col];
+          row === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y);
+        }
+        ctx.strokeStyle = `rgba(240, 166, 63, ${(0.075 * calm).toFixed(4)})`;
+        ctx.lineWidth = 0.6;
+        ctx.stroke();
+      }
+
+      // Los nudos que el cursor levanta se encienden
+      for (let row = 0; row < ROWS; row++) {
+        const { line } = pts[row];
+        for (let col = 0; col < COLS; col += 2) {
+          const pt = line[col];
+          if (pt.lift < 0.012) continue;
+          const a = Math.min(pt.lift * 6 * (0.3 + pt.d), 0.75);
+          const size = 1 + pt.lift * 14 * pt.d;
+          ctx.fillStyle = `rgba(255, 192, 116, ${a.toFixed(4)})`;
+          ctx.fillRect(pt.x - size / 2, pt.y - size / 2, size, size);
+        }
+      }
+    }
+
+    function loop() {
+      t += 0.006;
+      draw();
+      raf = requestAnimationFrame(loop);
+    }
+
+    function start() {
+      if (raf || !animate) return;
+      raf = requestAnimationFrame(loop);
+    }
+
+    function stop() {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    }
+
+    resize();
+    draw();
+
+    if (animate) {
+      // Fuera de pantalla no se dibuja nada: el resto de la página no paga el
+      // costo de una animación que nadie ve.
+      const io = new IntersectionObserver((entries) => {
+        visible = entries[0].isIntersecting;
+        visible ? start() : stop();
+      }, { threshold: 0.01 });
+      io.observe(canvas);
+
+      window.addEventListener('pointermove', (e) => {
+        tx = e.clientX / window.innerWidth;
+        ty = e.clientY / window.innerHeight;
+      }, { passive: true });
+    }
+
+    let resizeTimer = 0;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => { resize(); draw(); }, 150);
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      document.hidden ? stop() : (visible && start());
+    });
+  }
+</script>
+
+<style>
+  .field {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    /* Se desvanece hacia arriba para que el título respire sobre negro limpio */
+    mask-image: linear-gradient(180deg, transparent 8%, #000 42%, #000 92%, transparent);
+  }
+</style>
