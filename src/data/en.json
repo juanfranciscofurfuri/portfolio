@@ -41,8 +41,8 @@
     },
     {
       "label": "Stack",
-      "value": "WordPress, HTML, CSS, JS",
-      "note": "Divi and Elementor in production"
+      "value": "WordPress, JavaScript, Node.js",
+      "note": "Plus React and Java from training, not yet shipped"
     }
   ],
   "work": {
@@ -181,6 +181,8 @@
     "HTML",
     "CSS",
     "JavaScript",
+    "Node.js",
+    "React",
     "Astro",
     "Netlify",
     "Git",
