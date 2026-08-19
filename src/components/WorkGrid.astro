@@ -122,7 +122,9 @@ const spans = [7, 5, 5, 7, 6, 6];
     gap: var(--sp-4);
     margin-bottom: var(--sp-6);
     padding-bottom: var(--sp-4);
-    border-bottom: 1px solid var(--line);
+    /* La línea se apaga hacia los costados en vez de cortar la página en dos. */
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(90deg, var(--line-strong), transparent 85%) 1;
   }
 
   .work__title {

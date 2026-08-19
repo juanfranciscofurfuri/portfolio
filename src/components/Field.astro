@@ -183,6 +183,8 @@
     z-index: -1;
     pointer-events: none;
     /* Se desvanece hacia arriba para que el título respire sobre negro limpio */
-    mask-image: linear-gradient(180deg, transparent 8%, #000 42%, #000 92%, transparent);
+    /* Se apaga largo por arriba y por abajo: cortada de golpe, la última fila
+       de la malla queda como una línea horizontal marcando el borde. */
+    mask-image: linear-gradient(180deg, transparent 6%, #000 46%, rgba(0,0,0,0.35) 82%, transparent 100%);
   }
 </style>
