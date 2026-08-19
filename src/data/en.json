@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "title": "Juan Furfuri - Web Developer, WordPress and front-end",
+    "description": "Web developer from Mendoza, Argentina. WordPress, Elementor and front-end for agencies and teams abroad. C1 English, GMT-3."
+  },
+  "nav": {
+    "work": "Work",
+    "approach": "Approach",
+    "about": "About",
+    "cta": "Get in touch",
+    "langLabel": "Ver en español"
+  },
+  "hero": {
+    "headline": "I build the sites. I also talk to the clients.",
+    "sub": "Two and a half years shipping client work in WordPress and front-end code. Based in Mendoza, working in C1 English.",
+    "ctaPrimary": "Get in touch",
+    "ctaSecondary": "See the work",
+    "imageAlt": "Espacio Gropius, a coworking site built around a booking funnel",
+    "imageCaption": "Espacio Gropius. Coworking site built around a booking funnel."
+  },
+  "proof": [
+    {
+      "label": "English",
+      "value": "C1, EF SET certified",
+      "href": "https://www.efset.org/cert/CqY6rz",
+      "note": "Verify the certificate"
+    },
+    {
+      "label": "Time zone",
+      "value": "GMT-3",
+      "note": "1 to 2 hours from the US East Coast"
+    },
+    {
+      "label": "Client sites",
+      "value": "Around 10 since 2025",
+      "note": "Found, scoped, built and delivered by me"
+    },
+    {
+      "label": "Stack",
+      "value": "WordPress, HTML, CSS, JS",
+      "note": "Divi and Elementor in production"
+    }
+  ],
+  "work": {
+    "heading": "Selected work",
+    "liveLabel": "Visit site",
+    "repoLabel": "Source",
+    "items": [
+      {
+        "slug": "gropius",
+        "name": "Espacio Gropius",
+        "kind": "Client site",
+        "summary": "A coworking space in Mendoza. The site is built around one action: booking a room. Every section routes there instead of describing the place and stopping.",
+        "tech": "WordPress, Elementor",
+        "href": "https://espaciogropius.com.ar",
+        "image": "espaciogropius"
+      },
+      {
+        "slug": "matix",
+        "name": "Matix Digital",
+        "kind": "My agency",
+        "summary": "The agency I founded in 2025. Around 10 clients since then. I find them, scope the work, build the site and deliver it.",
+        "tech": "WordPress, Divi",
+        "href": "https://matix.digital",
+        "image": "matix"
+      },
+      {
+        "slug": "d2",
+        "name": "d2 Attention Test Calculator",
+        "kind": "Open source",
+        "summary": "Scores the d2 attention test against age-banded reference values. Built for a psychology thesis where the correction was still done by hand. I found and fixed two calculation bugs in it: arguments passed in the wrong order, and numbers compared as strings.",
+        "tech": "HTML, CSS, JavaScript",
+        "href": "https://juanfranciscofurfuri.github.io/CalculadoraTestPsico/",
+        "repo": "https://github.com/juanfranciscofurfuri/CalculadoraTestPsico"
+      },
+      {
+        "slug": "tienda",
+        "name": "Sales Management System",
+        "kind": "Open source",
+        "summary": "Desktop sales system in Java over MySQL. I rewrote the write path to use PreparedStatement, which closed an SQL injection hole, and moved the database credentials out of the source code.",
+        "tech": "Java, JDBC, MySQL",
+        "repo": "https://github.com/juanfranciscofurfuri/TiendaJDBC"
+      }
+    ]
+  },
+  "story": {
+    "heading": "The site got faster, then it started failing",
+    "body": [
+      "A client site came to me for a performance pass at Spika Solutions. I optimized it and it did get faster. Then buffer errors started showing up that had not been there before.",
+      "I traced them to the WordPress configuration and fixed them there. The client kept the speed and lost the errors."
+    ],
+    "note": "Most web work is not a blank page. It is taking over something that already exists and finding what is actually wrong with it."
+  },
+  "approach": {
+    "heading": "How I work",
+    "steps": [
+      {
+        "title": "Start from the action",
+        "body": "What has to happen on this site: a booking, a call, a filled form. The layout follows that, not the other way around."
+      },
+      {
+        "title": "Build it to be edited",
+        "body": "WordPress when the client needs to change things themselves. Hand-written HTML and CSS when speed is the point."
+      },
+      {
+        "title": "Check it on a real phone",
+        "body": "Most visitors arrive on mobile. A site that only works on a laptop is not finished."
+      },
+      {
+        "title": "Hand over the keys",
+        "body": "Domain, hosting and admin access go in the client's name. Nothing is held hostage."
+      }
+    ]
+  },
+  "about": {
+    "heading": "About",
+    "body": [
+      "I started in technical support and sales, moved into web development at Spika Solutions in 2023, and in 2025 started my own agency.",
+      "Running it taught me the part most developers never touch: finding the client, agreeing on the scope, putting a price on it and being the one who answers when something breaks at 8pm.",
+      "I am looking for a stable role on a team, remote, working on one product instead of ten clients. My English is C1, certified, and I take client calls without an interpreter."
+    ],
+    "cvLabel": "Download CV (PDF)"
+  },
+  "contact": {
+    "heading": "Get in touch",
+    "sub": "Tell me what you need built, or what you are hiring for. I answer within a day.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "messagePlaceholder": "",
+    "submit": "Send message",
+    "sending": "Sending",
+    "errorRequired": "This field is required",
+    "errorEmail": "Enter a valid email address",
+    "or": "Or reach me directly"
+  },
+  "thanks": {
+    "heading": "Message sent",
+    "body": "Thanks. It landed in my inbox and I answer within a day.",
+    "back": "Back to the site"
+  },
+  "footer": {
+    "demoNote": "The two demo sites on this page are concept projects. I built them to show how I work, not for a client.",
+    "rights": "Built in Mendoza, Argentina."
+  }
+}

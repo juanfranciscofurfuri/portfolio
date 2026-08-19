@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "title": "Juan Furfuri - Desarrollo web en Mendoza",
+    "description": "Desarrollo web en Mendoza. Sitios con un camino claro a la reserva, el turno o la consulta. WordPress y front-end."
+  },
+  "nav": {
+    "work": "Trabajos",
+    "approach": "Cómo trabajo",
+    "about": "Sobre mí",
+    "cta": "Hablemos",
+    "langLabel": "Read in English"
+  },
+  "hero": {
+    "headline": "Dejá de alquilar tu presencia online.",
+    "sub": "Si tus clientes te encuentran solo en Booking o en un directorio, la relación no es tuya. Hago sitios que la recuperan.",
+    "ctaPrimary": "Hablemos",
+    "ctaSecondary": "Ver trabajos",
+    "imageAlt": "Espacio Gropius, sitio de coworking construido alrededor de un embudo de reservas",
+    "imageCaption": "Espacio Gropius. Sitio de coworking construido alrededor de un embudo de reservas."
+  },
+  "proof": [
+    {
+      "label": "Clientes",
+      "value": "Alrededor de 10 desde 2025",
+      "note": "Los consigo, los cotizo, los construyo y los entrego yo"
+    },
+    {
+      "label": "Dónde",
+      "value": "Godoy Cruz, Mendoza",
+      "note": "Trabajo con clientes de todo el país"
+    },
+    {
+      "label": "Inglés",
+      "value": "C1 certificado",
+      "href": "https://www.efset.org/cert/CqY6rz",
+      "note": "Verificá el certificado"
+    },
+    {
+      "label": "Stack",
+      "value": "WordPress, HTML, CSS, JS",
+      "note": "Divi y Elementor en producción"
+    }
+  ],
+  "work": {
+    "heading": "Trabajos",
+    "liveLabel": "Ver sitio",
+    "repoLabel": "Código",
+    "items": [
+      {
+        "slug": "gropius",
+        "name": "Espacio Gropius",
+        "kind": "Cliente",
+        "summary": "Coworking en Mendoza. El sitio está armado alrededor de una sola acción: reservar una sala. Cada sección lleva ahí, en vez de describir el lugar y terminar.",
+        "tech": "WordPress, Elementor",
+        "href": "https://espaciogropius.com.ar",
+        "image": "espaciogropius"
+      },
+      {
+        "slug": "matix",
+        "name": "Matix Digital",
+        "kind": "Mi agencia",
+        "summary": "La agencia que fundé en 2025. Alrededor de 10 clientes desde entonces. Los consigo, cotizo el trabajo, construyo el sitio y lo entrego.",
+        "tech": "WordPress, Divi",
+        "href": "https://matix.digital",
+        "image": "matix"
+      },
+      {
+        "slug": "d2",
+        "name": "Calculadora del test d2",
+        "kind": "Código abierto",
+        "summary": "Corrige el test de atención d2 contra los valores de referencia por edad. Lo hice para una tesis de psicología donde la corrección se hacía a mano. Encontré y arreglé dos errores de cálculo: argumentos pasados en el orden equivocado y números comparados como texto.",
+        "tech": "HTML, CSS, JavaScript",
+        "href": "https://juanfranciscofurfuri.github.io/CalculadoraTestPsico/",
+        "repo": "https://github.com/juanfranciscofurfuri/CalculadoraTestPsico"
+      },
+      {
+        "slug": "tienda",
+        "name": "Sistema de ventas",
+        "kind": "Código abierto",
+        "summary": "Sistema de ventas de escritorio en Java sobre MySQL. Reescribí la escritura con PreparedStatement, que cerró un agujero de inyección SQL, y saqué las credenciales de la base del código fuente.",
+        "tech": "Java, JDBC, MySQL",
+        "repo": "https://github.com/juanfranciscofurfuri/TiendaJDBC"
+      }
+    ]
+  },
+  "story": {
+    "heading": "El sitio se hizo más rápido y ahí empezó a fallar",
+    "body": [
+      "En Spika Solutions me llegó un sitio de un cliente para optimizar. Lo optimicé y quedó más rápido. Después empezaron a aparecer errores de buffer que antes no estaban.",
+      "Los rastreé hasta la configuración de WordPress y los resolví ahí. El cliente se quedó con la velocidad y sin los errores."
+    ],
+    "note": "La mayor parte del trabajo web no es una página en blanco. Es agarrar algo que ya existe y encontrar qué tiene mal de verdad."
+  },
+  "approach": {
+    "heading": "Cómo trabajo",
+    "steps": [
+      {
+        "title": "Empiezo por la acción",
+        "body": "Qué tiene que pasar en el sitio: una reserva, un llamado, un formulario. El diseño sale de ahí, no al revés."
+      },
+      {
+        "title": "Lo hago para que lo puedas editar",
+        "body": "WordPress cuando necesitás cambiar cosas vos. Código a mano cuando lo que importa es la velocidad."
+      },
+      {
+        "title": "Lo pruebo en un celular real",
+        "body": "La mayoría de tus visitas entra desde el teléfono. Un sitio que solo anda en la computadora no está terminado."
+      },
+      {
+        "title": "Te entrego las llaves",
+        "body": "El dominio, el hosting y los accesos quedan a tu nombre. No te quedás atado a mí."
+      }
+    ]
+  },
+  "about": {
+    "heading": "Sobre mí",
+    "body": [
+      "Soy desarrollador web en Godoy Cruz, Mendoza. Empecé en soporte técnico y ventas, pasé a desarrollo web en Spika Solutions en 2023, y en 2025 abrí mi propia agencia.",
+      "Trabajo sobre todo con negocios que viven de que los encuentren: alojamiento, consultorios, estudios profesionales. Son los que más pierden cuando su única presencia está alquilada en un portal ajeno.",
+      "Hablo inglés C1 certificado, así que si tu negocio recibe turistas o clientes del exterior, el sitio y la atención pueden ir en los dos idiomas."
+    ],
+    "cvLabel": "Descargar CV (PDF)"
+  },
+  "contact": {
+    "heading": "Hablemos",
+    "sub": "Contame qué necesitás. Te respondo dentro del día.",
+    "name": "Nombre",
+    "email": "Email",
+    "message": "Mensaje",
+    "messagePlaceholder": "",
+    "submit": "Enviar mensaje",
+    "sending": "Enviando",
+    "errorRequired": "Este campo es obligatorio",
+    "errorEmail": "Escribí un email válido",
+    "or": "O escribime directo"
+  },
+  "thanks": {
+    "heading": "Mensaje enviado",
+    "body": "Gracias. Me llegó a la casilla y te respondo dentro del día.",
+    "back": "Volver al sitio"
+  },
+  "footer": {
+    "demoNote": "Los dos demos de esta página son proyectos conceptuales. Los hice yo para mostrar cómo trabajo, no son trabajos de clientes.",
+    "rights": "Hecho en Mendoza, Argentina."
+  }
+}

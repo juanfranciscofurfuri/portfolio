@@ -1,0 +1,163 @@
+---
+interface Props {
+  contact: {
+    heading: string; sub: string; name: string; email: string; message: string;
+    submit: string; sending: string; errorRequired: string; errorEmail: string; or: string;
+  };
+  action: string;
+}
+const { contact, action } = Astro.props;
+---
+
+<section class="section contact" id="contact">
+  <div class="container contact__grid">
+    <div class="contact__intro">
+      <h2 class="contact__heading">{contact.heading}</h2>
+      <p class="contact__sub">{contact.sub}</p>
+
+      <p class="contact__or mono">{contact.or}</p>
+      <ul class="contact__links">
+        <li><a href="mailto:juanfrafurfuri@gmail.com">juanfrafurfuri@gmail.com</a></li>
+        <li>
+          <a href="https://www.linkedin.com/in/juan-francisco-furfuri-altamira-2b8a74336/" target="_blank" rel="noopener">
+            LinkedIn
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/juanfranciscofurfuri" target="_blank" rel="noopener">GitHub</a>
+        </li>
+      </ul>
+    </div>
+
+    <form
+      class="form"
+      name="contact"
+      method="POST"
+      action={action}
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+    >
+      <input type="hidden" name="form-name" value="contact" />
+      <p class="visually-hidden">
+        <label>Do not fill this in <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+      </p>
+
+      <div class="field">
+        <label for="name">{contact.name}</label>
+        <input id="name" name="name" type="text" required autocomplete="name" />
+        <p class="field__error">{contact.errorRequired}</p>
+      </div>
+
+      <div class="field">
+        <label for="email">{contact.email}</label>
+        <input id="email" name="email" type="email" required autocomplete="email" />
+        <p class="field__error">{contact.errorEmail}</p>
+      </div>
+
+      <div class="field">
+        <label for="message">{contact.message}</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+        <p class="field__error">{contact.errorRequired}</p>
+      </div>
+
+      <button class="btn btn--primary form__submit" type="submit" data-sending={contact.sending}>
+        {contact.submit}
+      </button>
+    </form>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form.form').forEach((form) => {
+    form.addEventListener('submit', () => {
+      const btn = form.querySelector<HTMLButtonElement>('.form__submit');
+      if (btn && form.checkValidity()) {
+        btn.disabled = true;
+        btn.textContent = btn.dataset.sending ?? btn.textContent;
+      }
+    });
+  });
+</script>
+
+<style>
+  .contact { border-top: 1px solid var(--line); }
+
+  .contact__grid {
+    display: grid;
+    gap: var(--sp-6);
+  }
+
+  .contact__heading { font-size: var(--step-3); }
+
+  .contact__sub {
+    margin-top: var(--sp-3);
+    color: var(--text-muted);
+    font-size: var(--step-1);
+    max-width: 42ch;
+  }
+
+  .contact__or {
+    margin-top: var(--sp-6);
+    font-size: var(--step--1);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-dim);
+  }
+
+  .contact__links {
+    margin-top: var(--sp-2);
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .contact__links a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-strong);
+    transition: border-color 0.2s var(--ease);
+  }
+
+  .contact__links a:hover { border-bottom-color: var(--accent); }
+
+  .field { display: grid; gap: var(--sp-1); margin-bottom: var(--sp-4); }
+
+  .field label { font-size: var(--step--1); color: var(--text-muted); }
+
+  .field input,
+  .field textarea {
+    width: 100%;
+    background: var(--bg-sunken);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    padding: 0.75rem 0.9rem;
+    color: var(--text);
+    transition: border-color 0.2s var(--ease);
+  }
+
+  .field input:hover,
+  .field textarea:hover { border-color: var(--text-dim); }
+
+  .field textarea { resize: vertical; min-height: 8rem; }
+
+  .field__error {
+    display: none;
+    font-size: var(--step--1);
+    color: #ff9d8a;
+  }
+
+  .field input:user-invalid,
+  .field textarea:user-invalid { border-color: #ff9d8a; }
+
+  .field input:user-invalid ~ .field__error,
+  .field textarea:user-invalid ~ .field__error { display: block; }
+
+  .form__submit { width: 100%; }
+  .form__submit:disabled { opacity: 0.6; cursor: progress; }
+
+  @media (min-width: 860px) {
+    .contact__grid { grid-template-columns: 1fr 1fr; gap: var(--sp-7); }
+    .form__submit { width: auto; }
+  }
+</style>

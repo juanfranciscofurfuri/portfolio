@@ -1,0 +1,98 @@
+---
+import { Image } from 'astro:assets';
+import gropius from '../assets/work/espaciogropius.jpg';
+
+interface Props {
+  hero: {
+    headline: string;
+    sub: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+    imageAlt: string;
+    imageCaption: string;
+  };
+  base: string;
+}
+const { hero, base } = Astro.props;
+---
+
+<section class="hero">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <h1 class="hero__title">{hero.headline}</h1>
+      <p class="hero__sub">{hero.sub}</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href={`${base}/#contact`}>{hero.ctaPrimary}</a>
+        <a class="btn btn--ghost" href={`${base}/#work`}>{hero.ctaSecondary}</a>
+      </div>
+    </div>
+
+    <figure class="hero__media">
+      <Image
+        src={gropius}
+        alt={hero.imageAlt}
+        widths={[520, 760, 1040]}
+        sizes="(min-width: 960px) 46vw, 92vw"
+        format="webp"
+        quality={72}
+        loading="eager"
+        fetchpriority="high"
+      />
+      <figcaption>{hero.imageCaption}</figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-top: var(--sp-6);
+    padding-bottom: var(--sp-6);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero__grid {
+    display: grid;
+    gap: var(--sp-6);
+    align-items: center;
+  }
+
+  .hero__title {
+    font-size: clamp(2.05rem, 1.4rem + 2.7vw, 3.35rem);
+    max-width: 16ch;
+  }
+
+  .hero__sub {
+    margin-top: var(--sp-4);
+    font-size: var(--step-1);
+    color: var(--text-muted);
+    max-width: 46ch;
+  }
+
+  .hero__actions {
+    margin-top: var(--sp-5);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+  }
+
+  .hero__media img {
+    width: 100%;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+  }
+
+  .hero__media figcaption {
+    margin-top: var(--sp-2);
+    font-size: var(--step--1);
+    color: var(--text-dim);
+  }
+
+  @media (min-width: 960px) {
+    .hero { padding-top: var(--sp-7); padding-bottom: var(--sp-7); }
+    .hero__grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: var(--sp-6);
+    }
+    .hero__media { margin-top: var(--sp-4); }
+  }
+</style>

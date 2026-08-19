@@ -1,0 +1,107 @@
+---
+interface Props {
+  lang: 'en' | 'es';
+  nav: { work: string; approach: string; about: string; cta: string; langLabel: string };
+}
+const { lang, nav } = Astro.props;
+const base = lang === 'en' ? '' : '/es';
+const otherHref = lang === 'en' ? '/es/' : '/';
+const otherCode = lang === 'en' ? 'ES' : 'EN';
+---
+
+<header class="hdr">
+  <div class="container hdr__inner">
+    <a class="hdr__brand" href={`${base}/`}>
+      <span class="hdr__mark" aria-hidden="true">JF</span>
+      <span class="hdr__name">Juan Furfuri</span>
+    </a>
+
+    <nav class="hdr__nav" aria-label={lang === 'en' ? 'Sections' : 'Secciones'}>
+      <a href={`${base}/#work`}>{nav.work}</a>
+      <a href={`${base}/#approach`}>{nav.approach}</a>
+      <a href={`${base}/#about`}>{nav.about}</a>
+    </nav>
+
+    <div class="hdr__end">
+      <a class="hdr__lang" href={otherHref} lang={lang === 'en' ? 'es' : 'en'} aria-label={nav.langLabel}>
+        {otherCode}
+      </a>
+      <a class="btn btn--primary hdr__cta" href={`${base}/#contact`}>{nav.cta}</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hdr {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hdr__inner {
+    height: 68px;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+  }
+
+  .hdr__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .hdr__mark {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.02em;
+    color: var(--accent);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    padding: 0.25rem 0.4rem;
+  }
+
+  .hdr__nav {
+    display: none;
+    gap: var(--sp-4);
+    margin-left: auto;
+    font-size: var(--step--1);
+    color: var(--text-muted);
+  }
+
+  .hdr__nav a { text-decoration: none; transition: color 0.2s var(--ease); }
+  .hdr__nav a:hover { color: var(--text); }
+
+  .hdr__end {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    margin-left: auto;
+  }
+
+  .hdr__lang {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    text-decoration: none;
+    color: var(--text-muted);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    padding: 0.45rem 0.6rem;
+    line-height: 1;
+    transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+  }
+
+  .hdr__lang:hover { color: var(--text); border-color: var(--text-dim); }
+
+  .hdr__cta { padding: 0.55rem 1rem; font-size: var(--step--1); }
+
+  @media (min-width: 860px) {
+    .hdr__nav { display: flex; }
+    .hdr__end { margin-left: 0; }
+  }
+</style>

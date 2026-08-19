@@ -1,0 +1,25 @@
+---
+interface Props {
+  footer: { demoNote: string; rights: string };
+}
+const { footer } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="ftr">
+  <div class="container ftr__inner">
+    <p class="ftr__note">{footer.demoNote}</p>
+    <p class="ftr__meta mono">Juan Francisco Furfuri, {year}. {footer.rights}</p>
+  </div>
+</footer>
+
+<style>
+  .ftr {
+    border-top: 1px solid var(--line);
+    background: var(--bg-sunken);
+    padding-block: var(--sp-5);
+  }
+  .ftr__inner { display: grid; gap: var(--sp-3); }
+  .ftr__note { color: var(--text-dim); font-size: var(--step--1); max-width: 70ch; }
+  .ftr__meta { color: var(--text-dim); font-size: var(--step--1); }
+</style>

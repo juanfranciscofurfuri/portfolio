@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import en from '../data/en.json';
+---
+<BaseLayout lang="en" title={`${en.thanks.heading} - Juan Furfuri`} description={en.thanks.body} path="thanks">
+  <main id="main" class="thanks">
+    <div class="container">
+      <h1>{en.thanks.heading}</h1>
+      <p>{en.thanks.body}</p>
+      <a class="btn btn--primary" href="/">{en.thanks.back}</a>
+    </div>
+  </main>
+</BaseLayout>
+<style>
+  .thanks { min-height: 70dvh; display: grid; align-items: center; padding-block: var(--sp-7); }
+  .thanks h1 { font-size: var(--step-3); }
+  .thanks p { margin-top: var(--sp-3); color: var(--text-muted); font-size: var(--step-1); max-width: 46ch; }
+  .thanks .btn { margin-top: var(--sp-5); }
+</style>

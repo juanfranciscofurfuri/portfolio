@@ -1,0 +1,54 @@
+---
+interface Props {
+  approach: { heading: string; steps: { title: string; body: string }[] };
+}
+const { approach } = Astro.props;
+---
+
+<section class="section" id="approach">
+  <div class="container">
+    <h2 class="apr__heading">{approach.heading}</h2>
+
+    <dl class="apr__list">
+      {approach.steps.map((step) => (
+        <div class="apr__row reveal">
+          <dt class="apr__title">{step.title}</dt>
+          <dd class="apr__body">{step.body}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .apr__heading { font-size: var(--step-3); margin-bottom: var(--sp-5); }
+
+  .apr__list { border-top: 1px solid var(--line); }
+
+  .apr__row {
+    display: grid;
+    gap: var(--sp-2);
+    padding-block: var(--sp-4);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .apr__title {
+    font-weight: 500;
+    font-size: var(--step-1);
+    letter-spacing: -0.015em;
+  }
+
+  .apr__body {
+    margin: 0;
+    color: var(--text-muted);
+    max-width: 62ch;
+  }
+
+  @media (min-width: 800px) {
+    .apr__row {
+      grid-template-columns: 1fr 1.6fr;
+      gap: var(--sp-5);
+      padding-block: var(--sp-5);
+    }
+  }
+</style>

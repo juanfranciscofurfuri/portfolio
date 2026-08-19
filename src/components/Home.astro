@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from './SiteHeader.astro';
+import Hero from './Hero.astro';
+import ProofBar from './ProofBar.astro';
+import WorkGrid from './WorkGrid.astro';
+import Story from './Story.astro';
+import Approach from './Approach.astro';
+import About from './About.astro';
+import Contact from './Contact.astro';
+import SiteFooter from './SiteFooter.astro';
+import en from '../data/en.json';
+import es from '../data/es.json';
+
+interface Props { lang: 'en' | 'es' }
+const { lang } = Astro.props;
+const t = lang === 'en' ? en : es;
+const base = lang === 'en' ? '' : '/es';
+const formAction = lang === 'en' ? '/thanks/' : '/es/gracias/';
+---
+
+<BaseLayout lang={lang} title={t.meta.title} description={t.meta.description}>
+  <SiteHeader lang={lang} nav={t.nav} />
+  <main id="main">
+    <Hero hero={t.hero} base={base} />
+    <ProofBar items={t.proof} />
+    <WorkGrid work={t.work} />
+    <Story story={t.story} />
+    <Approach approach={t.approach} />
+    <About about={t.about} cvHref="/cv/Juan-Furfuri-WordPress-Developer.pdf" />
+    <Contact contact={t.contact} action={formAction} />
+  </main>
+  <SiteFooter footer={t.footer} />
+</BaseLayout>

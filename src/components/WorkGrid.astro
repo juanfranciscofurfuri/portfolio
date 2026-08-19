@@ -1,0 +1,157 @@
+---
+import { Image } from 'astro:assets';
+import gropius from '../assets/work/espaciogropius.jpg';
+import matix from '../assets/work/matix.jpg';
+
+const images: Record<string, ImageMetadata> = {
+  espaciogropius: gropius,
+  matix: matix,
+};
+
+interface Item {
+  slug: string;
+  name: string;
+  kind: string;
+  summary: string;
+  tech: string;
+  href?: string;
+  repo?: string;
+  image?: string;
+  demo?: boolean;
+  demoLabel?: string;
+}
+
+interface Props {
+  work: { heading: string; liveLabel: string; repoLabel: string; items: Item[] };
+}
+const { work } = Astro.props;
+---
+
+<section class="section" id="work">
+  <div class="container">
+    <h2 class="work__heading">{work.heading}</h2>
+
+    <div class="work__grid">
+      {work.items.map((item) => (
+        <article class:list={['card', 'reveal', item.image && 'card--wide']}>
+          {item.image && images[item.image] && (
+            <Image
+              class="card__img"
+              src={images[item.image]}
+              alt={item.name}
+              widths={[420, 640, 900]}
+              sizes="(min-width: 900px) 44vw, 92vw"
+              format="webp"
+              quality={70}
+              loading="lazy"
+            />
+          )}
+
+          <div class="card__body">
+            <p class="card__kind mono">{item.demo ? item.demoLabel : item.kind}</p>
+            <h3 class="card__name">{item.name}</h3>
+            <p class="card__summary">{item.summary}</p>
+            <p class="card__tech mono">{item.tech}</p>
+
+            <div class="card__links">
+              {item.href && (
+                <a class="card__link" href={item.href} target="_blank" rel="noopener">
+                  {work.liveLabel}
+                </a>
+              )}
+              {item.repo && (
+                <a class="card__link card__link--muted" href={item.repo} target="_blank" rel="noopener">
+                  {work.repoLabel}
+                </a>
+              )}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .work__heading { font-size: var(--step-3); margin-bottom: var(--sp-5); }
+
+  .work__grid {
+    display: grid;
+    gap: var(--sp-4);
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .card__img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: top center;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .card__body {
+    padding: var(--sp-4);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .card__kind {
+    font-size: var(--step--1);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+  }
+
+  .card__name {
+    margin-top: var(--sp-2);
+    font-size: var(--step-2);
+  }
+
+  .card__summary {
+    margin-top: var(--sp-2);
+    color: var(--text-muted);
+    max-width: 58ch;
+  }
+
+  .card__tech {
+    margin-top: var(--sp-3);
+    font-size: var(--step--1);
+    color: var(--text-dim);
+  }
+
+  .card__links {
+    margin-top: var(--sp-4);
+    padding-top: var(--sp-3);
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: var(--sp-4);
+  }
+
+  .card__link {
+    font-size: var(--step--1);
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s var(--ease);
+  }
+
+  .card__link:hover { border-bottom-color: currentColor; }
+  .card__link--muted { color: var(--text-muted); }
+
+  @media (min-width: 900px) {
+    .work__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-5);
+    }
+  }
+</style>

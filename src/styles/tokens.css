@@ -1,0 +1,187 @@
+/* ---------------------------------------------------------------------------
+   Design tokens - portfolio (dark tech)
+   Theme lock: the whole page is dark. Sections tint within the same family,
+   they never flip to a light surface.
+   Accent: amber. Chosen over the default dev-portfolio cyan/violet; it reads
+   as an amber CRT terminal, which is the reference this palette is built on.
+   Radius rule: one scale, 8px, on every card, control and input.
+--------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg:            #0b0c0e;
+  --bg-raised:     #131519;
+  --bg-sunken:     #08090a;
+
+  /* Lines */
+  --line:          #1e2228;
+  --line-strong:   #2c323a;
+
+  /* Text */
+  --text:          #e9ebee;
+  --text-muted:    #a0a8b2;
+  --text-dim:      #7a838e;
+
+  /* Accent */
+  --accent:        #eda54a;
+  --accent-soft:   #f3c288;
+  --accent-ink:    #0b0c0e;
+  --accent-wash:   rgba(237, 165, 74, 0.12);
+
+  /* Type */
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', 'Cascadia Code', monospace;
+
+  --step--1: clamp(0.82rem, 0.79rem + 0.14vw, 0.9rem);
+  --step-0:  clamp(1rem, 0.96rem + 0.2vw, 1.09rem);
+  --step-1:  clamp(1.2rem, 1.12rem + 0.4vw, 1.45rem);
+  --step-2:  clamp(1.5rem, 1.34rem + 0.8vw, 2rem);
+  --step-3:  clamp(1.95rem, 1.6rem + 1.7vw, 2.9rem);
+  --step-4:  clamp(2.4rem, 1.75rem + 3.2vw, 4.2rem);
+
+  /* Space */
+  --sp-1: 0.5rem;
+  --sp-2: 0.75rem;
+  --sp-3: 1rem;
+  --sp-4: 1.5rem;
+  --sp-5: 2rem;
+  --sp-6: 3rem;
+  --sp-7: 4.5rem;
+  --sp-8: 7rem;
+
+  --container: 1160px;
+  --radius: 8px;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Reset ------------------------------------------------------------------ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+* { margin: 0; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img, svg, video { display: block; max-width: 100%; height: auto; }
+
+a { color: inherit; }
+
+button, input, textarea, select { font: inherit; color: inherit; }
+
+h1, h2, h3, h4 {
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+p { text-wrap: pretty; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+/* Primitives ------------------------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--sp-4);
+}
+
+.section { padding-block: var(--sp-7); }
+
+@media (min-width: 768px) {
+  .section { padding-block: var(--sp-8); }
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--text-dim);
+}
+
+.lede {
+  font-size: var(--step-1);
+  color: var(--text-muted);
+  max-width: 60ch;
+}
+
+.mono { font-family: var(--font-mono); }
+
+/* Buttons: one shape system, 8px, never pill ----------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  white-space: nowrap;
+  padding: 0.8rem 1.4rem;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  font-weight: 500;
+  font-size: var(--step-0);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease),
+              transform 0.1s var(--ease), color 0.2s var(--ease);
+}
+
+.btn:active { transform: translateY(1px); }
+
+.btn--primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.btn--primary:hover { background: var(--accent-soft); }
+
+.btn--ghost {
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+
+.btn--ghost:hover { border-color: var(--text-dim); background: var(--bg-raised); }
+
+/* Scroll reveal: opt-in, motion-safe only -------------------------------- */
+
+/* The hidden state is scoped to html.js-reveal, a class only JavaScript adds.
+   Without JS, or before it runs, every section renders visible. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js-reveal .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  }
+  html.js-reveal .reveal.is-in { opacity: 1; transform: none; }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

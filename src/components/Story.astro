@@ -1,0 +1,50 @@
+---
+interface Props {
+  story: { heading: string; body: string[]; note: string };
+}
+const { story } = Astro.props;
+---
+
+<section class="story">
+  <div class="container">
+    <div class="story__inner">
+      <h2 class="story__heading reveal">{story.heading}</h2>
+      <div class="story__body reveal">
+        {story.body.map((p) => <p>{p}</p>)}
+        <p class="story__note">{story.note}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .story {
+    padding-block: var(--sp-7);
+    background: var(--bg-sunken);
+    border-block: 1px solid var(--line);
+  }
+
+  .story__inner { max-width: 74ch; }
+
+  .story__heading {
+    font-size: var(--step-3);
+    max-width: 20ch;
+  }
+
+  .story__body { margin-top: var(--sp-4); }
+
+  .story__body p {
+    color: var(--text-muted);
+    font-size: var(--step-1);
+  }
+
+  .story__body p + p { margin-top: var(--sp-3); }
+
+  .story__note {
+    margin-top: var(--sp-5);
+    padding-left: var(--sp-4);
+    border-left: 2px solid var(--accent);
+    color: var(--text) !important;
+    font-size: var(--step-1) !important;
+  }
+</style>

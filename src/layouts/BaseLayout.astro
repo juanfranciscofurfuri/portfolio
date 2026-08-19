@@ -1,0 +1,107 @@
+---
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
+import '../styles/tokens.css';
+
+interface Props {
+  lang: 'en' | 'es';
+  title: string;
+  description: string;
+  /** Path without locale prefix, e.g. "" for home or "work/gropius" */
+  path?: string;
+}
+
+const { lang, title, description, path = '' } = Astro.props;
+const site = Astro.site?.href.replace(/\/$/, '') ?? '';
+const clean = path.replace(/^\/|\/$/g, '');
+const enUrl = `${site}/${clean ? clean + '/' : ''}`;
+const esUrl = `${site}/es/${clean ? clean + '/' : ''}`;
+const canonical = lang === 'en' ? enUrl : esUrl;
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Juan Francisco Furfuri',
+  jobTitle: 'Web Developer',
+  email: 'mailto:juanfrafurfuri@gmail.com',
+  url: site,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Godoy Cruz',
+    addressRegion: 'Mendoza',
+    addressCountry: 'AR',
+  },
+  knowsLanguage: ['es', 'en'],
+  sameAs: [
+    'https://github.com/juanfranciscofurfuri',
+    'https://www.linkedin.com/in/juan-francisco-furfuri-altamira-2b8a74336/',
+  ],
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="es" href={esUrl} />
+    <link rel="alternate" hreflang="x-default" href={enUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${site}/og.png`} />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'es_AR'} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#0b0c0e" />
+    <script type="application/ld+json" set:html={JSON.stringify(person)} />
+    <script is:inline>document.documentElement.classList.add('js-reveal');</script>
+  </head>
+  <body>
+    <a class="skip" href="#main">{lang === 'en' ? 'Skip to content' : 'Ir al contenido'}</a>
+    <slot />
+
+    <script>
+      const items = document.querySelectorAll('.reveal');
+      if (items.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-in');
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.15 }
+        );
+        items.forEach((el) => io.observe(el));
+      } else {
+        items.forEach((el) => el.classList.add('is-in'));
+      }
+    </script>
+
+    <style>
+      .skip {
+        position: absolute;
+        left: -9999px;
+        top: var(--sp-3);
+        z-index: 100;
+        background: var(--accent);
+        color: var(--accent-ink);
+        padding: 0.6rem 1rem;
+        border-radius: var(--radius);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .skip:focus { left: var(--sp-4); }
+    </style>
+  </body>
+</html>
