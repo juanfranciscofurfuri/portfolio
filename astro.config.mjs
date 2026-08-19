@@ -13,6 +13,6 @@ export default defineConfig({
   integrations: [
     // Los demos llevan noindex: listarlos en el sitemap sería pedirle a Google
     // que indexe algo que la propia página le prohíbe indexar.
-    sitemap({ filter: (page) => !page.includes("/demo/") }),
+    sitemap({ filter: (page) => !page.includes("/demo/") && !page.includes("/thanks/") && !page.includes("/gracias/") }),
   ],
 });
