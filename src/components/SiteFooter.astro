@@ -39,11 +39,13 @@ const year = new Date().getFullYear();
   .ftr__note {
     color: var(--text-dim);
     font-size: var(--step--1);
-    max-width: 62ch;
+    /* Equilibra los renglones si llega a cortar, para que no quede una palabra
+       sola colgando al final. */
+    text-wrap: balance;
   }
 
   @media (min-width: 800px) {
     .ftr__inner { grid-template-columns: auto 1fr; gap: var(--sp-7); align-items: start; }
-    .ftr__note { justify-self: end; text-align: right; }
+    .ftr__note { justify-self: end; text-align: right; max-width: 60ch; }
   }
 </style>

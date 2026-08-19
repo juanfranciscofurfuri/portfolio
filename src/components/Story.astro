@@ -8,6 +8,7 @@ const words = story.heading.split(' ');
 ---
 
 <section class="story" data-lit>
+  <span class="glow" aria-hidden="true"></span>
   <SectionBg variant="embers" />
   <div class="container story__inner">
     <!-- El título se arma palabra por palabra mientras entra: el movimiento
@@ -38,9 +39,20 @@ const words = story.heading.split(' ');
     position: relative;
     isolation: isolate;
     padding-block: var(--sp-8);
-    background:
-      radial-gradient(1100px circle at var(--px) var(--py), rgba(240, 166, 63, 0.08), transparent 60%),
-      linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.55) 22%, rgba(0, 0, 0, 0.55) 78%, transparent);
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.5) 26%, rgba(0, 0, 0, 0.5) 74%, transparent);
+  }
+
+  .glow {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    mask-image: linear-gradient(180deg, transparent, #000 16%, #000 84%, transparent);
+  }
+
+  .glow {
+    background: radial-gradient(900px circle at var(--px) var(--py),
+                rgba(240, 166, 63, 0.09), transparent 62%);
   }
 
   .story__heading {
