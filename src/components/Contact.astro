@@ -1,4 +1,5 @@
 ---
+import SectionBg from './SectionBg.astro';
 interface Props {
   contact: {
     heading: string; sub: string; name: string; email: string; message: string;
@@ -19,6 +20,7 @@ const channels = [
 ---
 
 <section class="section contact" id="contact" data-lit>
+  <SectionBg variant="pulse" />
   <div class="container contact__grid">
     <div class="contact__intro">
       <h2 class="contact__heading reveal">{contact.heading}</h2>
@@ -101,7 +103,7 @@ const channels = [
 </script>
 
 <style>
-  .contact {
+    .contact {
     position: relative;
     isolation: isolate;
     background: radial-gradient(900px circle at var(--px) var(--py),

@@ -1,4 +1,5 @@
 ---
+import SectionBg from './SectionBg.astro';
 import { Image } from 'astro:assets';
 import gropius from '../assets/work/espaciogropius.jpg';
 import matix from '../assets/work/matix.jpg';
@@ -36,6 +37,7 @@ const spans = [7, 5, 5, 7, 6, 6];
 ---
 
 <section class="section work" id="work">
+  <SectionBg variant="grid" />
   <div class="container">
     <header class="work__head">
       <h2 class="work__title">{work.heading}</h2>
@@ -110,6 +112,9 @@ const spans = [7, 5, 5, 7, 6, 6];
 </section>
 
 <style>
+  /* Contiene la capa de fondo, que va en absoluto. */
+  .work { position: relative; isolation: isolate; }
+
   .work__head {
     display: flex;
     align-items: baseline;

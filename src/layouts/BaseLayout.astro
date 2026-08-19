@@ -98,6 +98,28 @@ const person = {
         items.forEach((el) => el.classList.add('is-in'));
       }
 
+      // 1b. Menú que sigue a la sección visible -----------------------------
+      // Sin esto, en una página larga el visitante pierde de vista dónde está.
+      const links = [...document.querySelectorAll<HTMLAnchorElement>('.hdr__nav a')];
+      const targets = links
+        .map((a) => document.querySelector(a.getAttribute('href')!.replace(/^.*#/, '#')))
+        .filter(Boolean) as HTMLElement[];
+
+      if (targets.length) {
+        const spy = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              const i = targets.indexOf(e.target as HTMLElement);
+              links.forEach((a, n) => a.classList.toggle('is-here', n === i));
+            }
+          },
+          // La franja alta del viewport decide: es la sección que se está leyendo.
+          { rootMargin: '-18% 0px -70% 0px' }
+        );
+        targets.forEach((t) => spy.observe(t));
+      }
+
       // El resto es puro adorno: en táctil y en movimiento reducido no corre.
       if (fine && !reduced) {
         let frame = 0;

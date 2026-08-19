@@ -1,0 +1,177 @@
+---
+// Fondo animado por sección.
+//
+// Un solo sistema con cinco climas, no cinco efectos sueltos: todos comparten
+// el ámbar sobre negro y todos se mueven con `transform` u `opacity`, así que
+// los compone la GPU y no cuestan repintado.
+//
+// El patrón vive en un hijo y lo que se anima es ese hijo. Animar
+// `background-position` en el padre obligaría a repintar en cada cuadro.
+interface Props {
+  variant: 'grid' | 'embers' | 'rails' | 'bloom' | 'pulse';
+}
+const { variant } = Astro.props;
+---
+
+<div class:list={['sbg', `sbg--${variant}`]} aria-hidden="true">
+  <span class="sbg__a"></span>
+  <span class="sbg__b"></span>
+</div>
+
+<style>
+  .sbg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    contain: strict;
+  }
+
+  .sbg__a,
+  .sbg__b {
+    position: absolute;
+    display: block;
+    will-change: transform;
+  }
+
+  /* Rejilla en fuga: dos planos de líneas a distinta velocidad. Es el clima de
+     la sección de trabajos, donde el ojo compara piezas. -------------------- */
+  .sbg--grid .sbg__a,
+  .sbg--grid .sbg__b {
+    inset: -60% -20%;
+    background-image:
+      linear-gradient(to right, rgba(240, 166, 63, 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(240, 166, 63, 0.055) 1px, transparent 1px);
+    background-size: 76px 76px;
+    mask-image: radial-gradient(120% 70% at 50% 40%, #000 20%, transparent 72%);
+  }
+
+  .sbg--grid .sbg__b {
+    background-size: 228px 228px;
+    opacity: 0.75;
+  }
+
+  /* Brasas que suben. Acompaña al relato: el texto habla de algo que se
+     recalienta y después se arregla. ---------------------------------------- */
+  .sbg--embers .sbg__a,
+  .sbg--embers .sbg__b {
+    inset: -30% 0 -30%;
+    background-image:
+      radial-gradient(1.5px 1.5px at 12% 82%, rgba(255, 192, 116, 0.5), transparent),
+      radial-gradient(1.5px 1.5px at 27% 64%, rgba(240, 166, 63, 0.42), transparent),
+      radial-gradient(2px 2px at 44% 90%, rgba(255, 192, 116, 0.32), transparent),
+      radial-gradient(1.5px 1.5px at 61% 72%, rgba(240, 166, 63, 0.45), transparent),
+      radial-gradient(1.5px 1.5px at 78% 86%, rgba(255, 192, 116, 0.35), transparent),
+      radial-gradient(2px 2px at 91% 68%, rgba(240, 166, 63, 0.3), transparent);
+    background-size: 100% 50%;
+  }
+
+  .sbg--embers .sbg__b { opacity: 0.55; transform: scale(1.4); }
+
+  /* Rieles verticales. La sección de proceso son cuatro pasos en orden, así que
+     el fondo también avanza en una dirección. ------------------------------- */
+  .sbg--rails .sbg__a {
+    inset: 0 0 0 0;
+    background-image: repeating-linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.035) 0 1px,
+      transparent 1px 132px
+    );
+    mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+  }
+
+  .sbg--rails .sbg__b {
+    inset: -40% -10%;
+    background: linear-gradient(180deg, transparent, rgba(240, 166, 63, 0.1), transparent);
+    height: 45%;
+  }
+
+  /* Floración lenta. Detrás del texto sobre mí: nada que distraiga. --------- */
+  .sbg--bloom .sbg__a,
+  .sbg--bloom .sbg__b {
+    inset: -50%;
+    background: radial-gradient(circle at 50% 50%, rgba(240, 166, 63, 0.09), transparent 58%);
+  }
+
+  .sbg--bloom .sbg__b {
+    background: radial-gradient(circle at 50% 50%, rgba(120, 96, 190, 0.07), transparent 60%);
+  }
+
+  /* Latido. Detrás del formulario: el único lugar donde el fondo tiene que
+     empujar a hacer algo. --------------------------------------------------- */
+  .sbg--pulse .sbg__a {
+    inset: 0;
+    background: radial-gradient(50% 60% at 50% 50%, rgba(240, 166, 63, 0.11), transparent 70%);
+  }
+
+  .sbg--pulse .sbg__b {
+    inset: 10% 20%;
+    border-radius: 50%;
+    border: 1px solid rgba(240, 166, 63, 0.12);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .sbg--grid .sbg__a { animation: driftA 46s linear infinite; }
+    .sbg--grid .sbg__b { animation: driftB 74s linear infinite; }
+    @keyframes driftA {
+      from { transform: translate3d(0, 0, 0); }
+      to   { transform: translate3d(-76px, -76px, 0); }
+    }
+    @keyframes driftB {
+      from { transform: translate3d(0, 0, 0); }
+      to   { transform: translate3d(228px, -228px, 0); }
+    }
+
+    .sbg--embers .sbg__a { animation: rise 28s linear infinite; }
+    .sbg--embers .sbg__b { animation: rise 44s linear infinite reverse; }
+    @keyframes rise {
+      from { transform: translate3d(0, 0, 0); }
+      to   { transform: translate3d(0, -50%, 0); }
+    }
+
+    .sbg--rails .sbg__b { animation: sweep 14s ease-in-out infinite alternate; }
+    @keyframes sweep {
+      from { transform: translate3d(0, -20%, 0); }
+      to   { transform: translate3d(0, 220%, 0); }
+    }
+
+    .sbg--bloom .sbg__a { animation: bloomA 38s ease-in-out infinite alternate; }
+    .sbg--bloom .sbg__b { animation: bloomB 52s ease-in-out infinite alternate; }
+    @keyframes bloomA {
+      from { transform: translate3d(-8%, 0, 0) scale(0.9); }
+      to   { transform: translate3d(10%, 6%, 0) scale(1.15); }
+    }
+    @keyframes bloomB {
+      from { transform: translate3d(12%, 4%, 0) scale(1.1); }
+      to   { transform: translate3d(-9%, -6%, 0) scale(0.92); }
+    }
+
+    .sbg--pulse .sbg__a { animation: breathe 9s ease-in-out infinite alternate; }
+    .sbg--pulse .sbg__b { animation: ring 9s ease-in-out infinite alternate; }
+    @keyframes breathe {
+      from { transform: scale(0.92); opacity: 0.7; }
+      to   { transform: scale(1.06); opacity: 1; }
+    }
+    @keyframes ring {
+      from { transform: scale(0.88); opacity: 0.25; }
+      to   { transform: scale(1.06); opacity: 0.7; }
+    }
+
+    /* Donde el navegador lo soporta, el fondo también responde al scroll: la
+       sección se ilumina al entrar y se apaga al salir. Es lo que hace que la
+       navegación se sienta continua y no a saltos. */
+    @supports (animation-timeline: view()) {
+      .sbg {
+        animation: enterExit linear both;
+        animation-timeline: view();
+        animation-range: entry 10% exit 90%;
+      }
+      @keyframes enterExit {
+        0%   { opacity: 0.15; transform: translateY(3%); }
+        35%, 65% { opacity: 1; transform: none; }
+        100% { opacity: 0.15; transform: translateY(-3%); }
+      }
+    }
+  }
+</style>

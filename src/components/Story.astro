@@ -1,4 +1,5 @@
 ---
+import SectionBg from './SectionBg.astro';
 interface Props {
   story: { heading: string; body: string[]; note: string };
 }
@@ -7,6 +8,7 @@ const words = story.heading.split(' ');
 ---
 
 <section class="story" data-lit>
+  <SectionBg variant="embers" />
   <div class="container story__inner">
     <!-- El título se arma palabra por palabra mientras entra: el movimiento
          obliga a leerlo, que es justo lo que esta sección necesita. -->
@@ -32,7 +34,7 @@ const words = story.heading.split(' ');
 </section>
 
 <style>
-  .story {
+    .story {
     position: relative;
     isolation: isolate;
     padding-block: var(--sp-8);
