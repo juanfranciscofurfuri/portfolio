@@ -22,7 +22,7 @@
     {
       "label": "Clientes",
       "value": "Alrededor de 10 desde 2025",
-      "note": "Los consigo, los cotizo, los construyo y los entrego yo"
+      "note": "De punta a punta: la primera charla, el sitio y la entrega"
     },
     {
       "label": "Dónde",
@@ -58,11 +58,33 @@
       {
         "slug": "matix",
         "name": "Matix Digital",
-        "kind": "Mi agencia",
-        "summary": "La agencia que fundé en 2025. Alrededor de 10 clientes desde entonces. Los consigo, cotizo el trabajo, construyo el sitio y lo entrego.",
+        "kind": "Agencia",
+        "summary": "Agencia de desarrollo web en Mendoza. Alrededor de 10 sitios desde 2025. Cada uno lo llevo desde la primera charla con el cliente hasta la entrega.",
         "tech": "WordPress, Divi",
         "href": "https://matix.digital",
         "image": "matix"
+      },
+      {
+        "slug": "demo-vinedo",
+        "name": "Casa Ladera",
+        "kind": "Proyecto conceptual",
+        "demo": true,
+        "demoLabel": "Proyecto conceptual",
+        "summary": "Posada en el Valle de Uco. Un solo formulario de consulta, y todas las secciones empujan ahí. No hay buenas fotos libres de habitaciones, así que cada habitación lleva el nombre de lo que se ve por su ventana.",
+        "tech": "Astro, CSS a mano",
+        "href": "/demo/vinedo/",
+        "image": "demo-vinedo"
+      },
+      {
+        "slug": "demo-estudio",
+        "name": "Ávila Nieto Abogados",
+        "kind": "Proyecto conceptual",
+        "demo": true,
+        "demoLabel": "Proyecto conceptual",
+        "summary": "Sitio de un estudio jurídico que responde una sola pregunta: si vale la pena llamar. Pone los honorarios, el plazo de respuesta y el secreto profesional arriba del formulario, no abajo.",
+        "tech": "Astro, CSS a mano",
+        "href": "/demo/estudio/",
+        "image": "demo-estudio"
       },
       {
         "slug": "d2",
@@ -81,22 +103,23 @@
         "tech": "Java, JDBC, MySQL",
         "repo": "https://github.com/juanfranciscofurfuri/TiendaJDBC"
       }
-    ]
+    ],
+    "demoLinkLabel": "Ver el demo"
   },
   "story": {
     "heading": "El sitio se hizo más rápido y ahí empezó a fallar",
     "body": [
-      "En Spika Solutions me llegó un sitio de un cliente para optimizar. Lo optimicé y quedó más rápido. Después empezaron a aparecer errores de buffer que antes no estaban.",
+      "Un sitio de un cliente de Matix me llegó para optimizar. Lo optimicé y quedó más rápido. Después empezaron a aparecer errores de buffer que antes no estaban.",
       "Los rastreé hasta la configuración de WordPress y los resolví ahí. El cliente se quedó con la velocidad y sin los errores."
     ],
-    "note": "La mayor parte del trabajo web no es una página en blanco. Es agarrar algo que ya existe y encontrar qué tiene mal de verdad."
+    "note": "La página en blanco es la excepción. La mayor parte del trabajo es agarrar un sitio que ya existe y encontrar qué tiene mal de verdad."
   },
   "approach": {
     "heading": "Cómo trabajo",
     "steps": [
       {
         "title": "Empiezo por la acción",
-        "body": "Qué tiene que pasar en el sitio: una reserva, un llamado, un formulario. El diseño sale de ahí, no al revés."
+        "body": "Qué tiene que pasar en el sitio: una reserva, un llamado, un formulario. El diseño sale de esa respuesta."
       },
       {
         "title": "Lo hago para que lo puedas editar",
@@ -108,14 +131,14 @@
       },
       {
         "title": "Te entrego las llaves",
-        "body": "El dominio, el hosting y los accesos quedan a tu nombre. No te quedás atado a mí."
+        "body": "El dominio, el hosting y los accesos quedan a tu nombre, así que te podés llevar el sitio cuando quieras."
       }
     ]
   },
   "about": {
     "heading": "Sobre mí",
     "body": [
-      "Soy desarrollador web en Godoy Cruz, Mendoza. Empecé en soporte técnico y ventas, pasé a desarrollo web en Spika Solutions en 2023, y en 2025 abrí mi propia agencia.",
+      "Soy desarrollador web en Godoy Cruz, Mendoza. Empecé en soporte técnico y ventas, pasé a desarrollo web en Spika Solutions en 2023, y desde 2025 hago sitios de clientes en Matix Digital.",
       "Trabajo sobre todo con negocios que viven de que los encuentren: alojamiento, consultorios, estudios profesionales. Son los que más pierden cuando su única presencia está alquilada en un portal ajeno.",
       "Hablo inglés C1 certificado, así que si tu negocio recibe turistas o clientes del exterior, el sitio y la atención pueden ir en los dos idiomas."
     ],

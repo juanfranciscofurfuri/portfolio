@@ -2,10 +2,14 @@
 import { Image } from 'astro:assets';
 import gropius from '../assets/work/espaciogropius.jpg';
 import matix from '../assets/work/matix.jpg';
+import demoVinedo from '../assets/work/demo-vinedo.png';
+import demoEstudio from '../assets/work/demo-estudio.png';
 
 const images: Record<string, ImageMetadata> = {
   espaciogropius: gropius,
   matix: matix,
+  'demo-vinedo': demoVinedo,
+  'demo-estudio': demoEstudio,
 };
 
 interface Item {
@@ -22,9 +26,14 @@ interface Item {
 }
 
 interface Props {
-  work: { heading: string; liveLabel: string; repoLabel: string; items: Item[] };
+  work: { heading: string; liveLabel: string; repoLabel: string; demoLinkLabel: string; items: Item[] };
 }
 const { work } = Astro.props;
+
+// The first item is the feature tile and spans both columns. If that leaves an
+// odd number behind, the last one spans too, so the grid never ends on a hole.
+const tail = work.items.length - 1;
+const lastSpans = tail % 2 === 1;
 ---
 
 <section class="section" id="work">
@@ -32,8 +41,16 @@ const { work } = Astro.props;
     <h2 class="work__heading">{work.heading}</h2>
 
     <div class="work__grid">
-      {work.items.map((item) => (
-        <article class:list={['card', 'reveal', item.image && 'card--wide']}>
+      {work.items.map((item, i) => (
+        <article
+          class:list={[
+            'card',
+            'reveal',
+            i === 0 && 'card--feature',
+            lastSpans && i === work.items.length - 1 && 'card--full',
+          ]}
+          style={`--i: ${i}`}
+        >
           {item.image && images[item.image] && (
             <Image
               class="card__img"
@@ -55,8 +72,13 @@ const { work } = Astro.props;
 
             <div class="card__links">
               {item.href && (
-                <a class="card__link" href={item.href} target="_blank" rel="noopener">
-                  {work.liveLabel}
+                <a
+                  class="card__link"
+                  href={item.href}
+                  target={item.demo ? undefined : '_blank'}
+                  rel={item.demo ? undefined : 'noopener'}
+                >
+                  {item.demo ? work.demoLinkLabel : work.liveLabel}
                 </a>
               )}
               {item.repo && (
@@ -87,6 +109,16 @@ const { work } = Astro.props;
     border: 1px solid var(--line);
     border-radius: var(--radius);
     overflow: hidden;
+    transition: transform 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--line-strong);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card:hover { transform: none; }
   }
 
   .card__img {
@@ -148,10 +180,33 @@ const { work } = Astro.props;
   .card__link:hover { border-bottom-color: currentColor; }
   .card__link--muted { color: var(--text-muted); }
 
+  html.js-reveal .reveal { transition-delay: calc(var(--i, 0) * 80ms); }
+
   @media (min-width: 900px) {
     .work__grid {
       grid-template-columns: repeat(2, 1fr);
       gap: var(--sp-5);
     }
+
+    .card--full { grid-column: 1 / -1; }
+
+    /* One feature tile, at the top: the strongest piece gets the room. */
+    .card--feature {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: stretch;
+    }
+
+    .card--feature .card__img {
+      height: 100%;
+      aspect-ratio: auto;
+      border-bottom: 0;
+      border-right: 1px solid var(--line);
+    }
+
+    .card--feature .card__body { padding: var(--sp-5); justify-content: center; }
+    .card--feature .card__name { font-size: var(--step-3); }
+    .card--feature .card__summary { font-size: var(--step-1); }
   }
 </style>

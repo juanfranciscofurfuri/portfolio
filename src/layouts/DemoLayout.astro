@@ -1,0 +1,60 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  themeColor: string;
+}
+const { title, description, path, themeColor } = Astro.props;
+const site = Astro.site?.href.replace(/\/$/, '') ?? '';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={`${site}/${path}/`} />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content={themeColor} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div class="concept">
+      <p class="concept__text">
+        Proyecto conceptual. Sitio de ejemplo, no pertenece a un negocio real.
+      </p>
+      <a class="concept__back" href="/es/#work">Volver al portfolio</a>
+    </div>
+
+    <slot />
+
+    <style is:global>
+      .concept {
+        position: relative;
+        z-index: 50;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem 1rem;
+        padding: 0.6rem 1.25rem;
+        background: #0b0c0e;
+        color: #e9ebee;
+        font-family: ui-monospace, "Cascadia Code", monospace;
+        font-size: 0.78rem;
+        letter-spacing: 0.02em;
+      }
+      .concept__text { margin: 0; }
+      .concept__back {
+        color: #eda54a;
+        text-decoration: none;
+        border-bottom: 1px solid currentColor;
+        white-space: nowrap;
+      }
+      .concept__back:focus-visible { outline: 2px solid #eda54a; outline-offset: 3px; }
+    </style>
+  </body>
+</html>

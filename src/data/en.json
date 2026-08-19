@@ -33,7 +33,7 @@
     {
       "label": "Client sites",
       "value": "Around 10 since 2025",
-      "note": "Found, scoped, built and delivered by me"
+      "note": "End to end, from the first call to delivery"
     },
     {
       "label": "Stack",
@@ -58,11 +58,33 @@
       {
         "slug": "matix",
         "name": "Matix Digital",
-        "kind": "My agency",
-        "summary": "The agency I founded in 2025. Around 10 clients since then. I find them, scope the work, build the site and deliver it.",
+        "kind": "Agency work",
+        "summary": "Web development agency in Mendoza. Around 10 client sites since 2025. I take each one from the first conversation with the client through to delivery.",
         "tech": "WordPress, Divi",
         "href": "https://matix.digital",
         "image": "matix"
+      },
+      {
+        "slug": "demo-vinedo",
+        "name": "Casa Ladera",
+        "kind": "Concept project",
+        "demo": true,
+        "demoLabel": "Concept project",
+        "summary": "A guesthouse in the Uco Valley. One enquiry form, and every section feeds it. There is no decent free photography of guest rooms, so each room is named after what its window faces.",
+        "tech": "Astro, hand-written CSS",
+        "href": "/demo/vinedo/",
+        "image": "demo-vinedo"
+      },
+      {
+        "slug": "demo-estudio",
+        "name": "Ávila Nieto Abogados",
+        "kind": "Concept project",
+        "demo": true,
+        "demoLabel": "Concept project",
+        "summary": "A law firm site that answers one question: is this worth a call. It puts the fees, the response time and the confidentiality rule above the form instead of below it.",
+        "tech": "Astro, hand-written CSS",
+        "href": "/demo/estudio/",
+        "image": "demo-estudio"
       },
       {
         "slug": "d2",
@@ -81,22 +103,23 @@
         "tech": "Java, JDBC, MySQL",
         "repo": "https://github.com/juanfranciscofurfuri/TiendaJDBC"
       }
-    ]
+    ],
+    "demoLinkLabel": "Live demo"
   },
   "story": {
     "heading": "The site got faster, then it started failing",
     "body": [
-      "A client site came to me for a performance pass at Spika Solutions. I optimized it and it did get faster. Then buffer errors started showing up that had not been there before.",
+      "A client site at Matix came to me for a performance pass. I optimized it and it did get faster. Then buffer errors started showing up that had not been there before.",
       "I traced them to the WordPress configuration and fixed them there. The client kept the speed and lost the errors."
     ],
-    "note": "Most web work is not a blank page. It is taking over something that already exists and finding what is actually wrong with it."
+    "note": "A blank page is the rare case. Most of the work is taking over a site that already exists and finding what is actually wrong with it."
   },
   "approach": {
     "heading": "How I work",
     "steps": [
       {
         "title": "Start from the action",
-        "body": "What has to happen on this site: a booking, a call, a filled form. The layout follows that, not the other way around."
+        "body": "What has to happen on this site: a booking, a call, a filled form. The layout comes out of that answer."
       },
       {
         "title": "Build it to be edited",
@@ -108,15 +131,15 @@
       },
       {
         "title": "Hand over the keys",
-        "body": "Domain, hosting and admin access go in the client's name. Nothing is held hostage."
+        "body": "Domain, hosting and admin access go in the client's name, so you can walk away with the site whenever you want."
       }
     ]
   },
   "about": {
     "heading": "About",
     "body": [
-      "I started in technical support and sales, moved into web development at Spika Solutions in 2023, and in 2025 started my own agency.",
-      "Running it taught me the part most developers never touch: finding the client, agreeing on the scope, putting a price on it and being the one who answers when something breaks at 8pm.",
+      "I started in technical support and sales, moved into web development at Spika Solutions in 2023, and since 2025 I have been building client sites at Matix Digital.",
+      "Working with clients directly taught me the part a lot of developers never touch: agreeing on what the site actually has to do, and being the one who answers when something breaks at 8pm.",
       "I am looking for a stable role on a team, remote, working on one product instead of ten clients. My English is C1, certified, and I take client calls without an interpreter."
     ],
     "cvLabel": "Download CV (PDF)"

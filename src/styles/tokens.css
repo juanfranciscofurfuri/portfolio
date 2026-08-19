@@ -171,8 +171,8 @@ p { text-wrap: pretty; }
 @media (prefers-reduced-motion: no-preference) {
   html.js-reveal .reveal {
     opacity: 0;
-    transform: translateY(14px);
-    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    transform: translateY(24px);
+    transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
   }
   html.js-reveal .reveal.is-in { opacity: 1; transform: none; }
 }
