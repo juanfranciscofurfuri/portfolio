@@ -18,6 +18,7 @@ const { lang } = Astro.props;
 const t = lang === 'en' ? en : es;
 const base = lang === 'en' ? '' : '/es';
 const formAction = lang === 'en' ? '/thanks/' : '/es/gracias/';
+const formName = lang === 'en' ? 'contact-en' : 'contacto-es';
 ---
 
 <BaseLayout lang={lang} title={t.meta.title} description={t.meta.description}>
@@ -30,7 +31,7 @@ const formAction = lang === 'en' ? '/thanks/' : '/es/gracias/';
     <Marquee items={t.marquee} />
     <Approach approach={t.approach} />
     <About about={t.about} cvHref="/cv/Juan-Furfuri-WordPress-Developer.pdf" />
-    <Contact contact={t.contact} action={formAction} />
+    <Contact contact={t.contact} action={formAction} formName={formName} />
   </main>
   <SiteFooter footer={t.footer} base={base} />
 </BaseLayout>

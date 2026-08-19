@@ -5,8 +5,11 @@ interface Props {
     submit: string; sending: string; errorRequired: string; errorEmail: string; or: string;
   };
   action: string;
+  /** Un nombre por idioma. Con el mismo nombre en los dos, Netlify los registra
+   *  como un único formulario y devuelve la página de gracias equivocada. */
+  formName: string;
 }
-const { contact, action } = Astro.props;
+const { contact, action, formName } = Astro.props;
 
 const channels = [
   { label: 'juanfrafurfuri@gmail.com', href: 'mailto:juanfrafurfuri@gmail.com' },
@@ -41,13 +44,13 @@ const channels = [
     <div class="shell contact__shell reveal" style="--i:1">
       <form
         class="core form"
-        name="contact"
+        name={formName}
         method="POST"
         action={action}
         data-netlify="true"
         netlify-honeypot="bot-field"
       >
-        <input type="hidden" name="form-name" value="contact" />
+        <input type="hidden" name="form-name" value={formName} />
         <p class="visually-hidden">
           <label>Do not fill this in <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
         </p>
