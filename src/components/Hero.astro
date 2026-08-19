@@ -160,8 +160,9 @@ let i = 0;
 
   .hero__actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
 
-  /* Escenario de la captura */
-  .hero__stageWrap { margin-top: var(--sp-6); }
+  /* Escenario de la captura. Va pegado al bloque de texto: separado se lee
+     como un elemento suelto, no como parte del hero. */
+  .hero__stageWrap { margin-top: var(--sp-5); }
 
   .hero__stage {
     margin: 0;
@@ -170,7 +171,19 @@ let i = 0;
   }
 
   .hero__frame { position: relative; }
-  .hero__frame img { width: 100%; }
+
+  /* Recorte cinematográfico: la captura completa es 4:3 y queda demasiado alta,
+     así que se muestra la franja superior, que es donde está el contenido. */
+  .hero__frame img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  @media (min-width: 900px) {
+    .hero__frame img { aspect-ratio: 21 / 9; }
+  }
 
   /* Brillo que barre la superficie, posicionado por el mismo puntero. */
   .hero__glare {
@@ -201,9 +214,9 @@ let i = 0;
       grid-template-columns: 1fr auto;
       align-items: end;
       gap: var(--sp-6);
-      margin-top: var(--sp-6);
+      margin-top: var(--sp-5);
     }
-    .hero__stageWrap { margin-top: var(--sp-7); margin-bottom: calc(var(--sp-7) * -1); }
+    .hero__stageWrap { margin-top: var(--sp-5); margin-bottom: calc(var(--sp-7) * -1); }
     .hero__stage { transform: perspective(1400px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); }
   }
 </style>
