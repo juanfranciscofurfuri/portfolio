@@ -41,8 +41,8 @@
     },
     {
       "label": "Stack",
-      "value": "WordPress, JavaScript, Node.js",
-      "note": "Plus React and Java from training, not yet shipped"
+      "value": "WordPress, JavaScript, React",
+      "note": "Node, TypeScript y Astro en los proyectos de acá abajo"
     }
   ],
   "work": {
@@ -94,8 +94,8 @@
         "slug": "d2",
         "name": "d2 Attention Test Calculator",
         "kind": "Open source",
-        "summary": "Scores the d2 attention test against age-banded reference values. Built for a psychology thesis where the correction was still done by hand. I found and fixed two calculation bugs in it: arguments passed in the wrong order, and numbers compared as strings.",
-        "tech": "HTML, CSS, JavaScript",
+        "summary": "Scores the d2 attention test against age-banded reference values, built for a psychology thesis where the correction was still done by hand. Rewritten in React and TypeScript: the scoring lives in pure functions covered by 19 tests, so a mistyped clinical threshold fails a test instead of quietly returning a wrong correction.",
+        "tech": "React, TypeScript, Vite, Vitest",
         "href": "https://juanfranciscofurfuri.github.io/CalculadoraTestPsico/",
         "repo": "https://github.com/juanfranciscofurfuri/CalculadoraTestPsico"
       },
@@ -177,16 +177,16 @@
   "marquee": [
     "WordPress",
     "Elementor",
-    "Divi",
     "HTML",
     "CSS",
     "JavaScript",
-    "Node.js",
+    "TypeScript",
     "React",
+    "Node.js",
     "Astro",
+    "Vitest",
     "Netlify",
     "Git",
-    "English C1",
-    "GMT-3"
+    "English C1"
   ]
 }

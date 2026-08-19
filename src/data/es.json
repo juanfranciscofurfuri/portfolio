@@ -41,8 +41,8 @@
     },
     {
       "label": "Stack",
-      "value": "WordPress, JavaScript, Node.js",
-      "note": "Más React y Java de formación, todavía sin producción"
+      "value": "WordPress, JavaScript, React",
+      "note": "Node, TypeScript y Astro en los proyectos de acá abajo"
     }
   ],
   "work": {
@@ -94,8 +94,8 @@
         "slug": "d2",
         "name": "Calculadora del test d2",
         "kind": "Código abierto",
-        "summary": "Corrige el test de atención d2 contra los valores de referencia por edad. Lo hice para una tesis de psicología donde la corrección se hacía a mano. Encontré y arreglé dos errores de cálculo: argumentos pasados en el orden equivocado y números comparados como texto.",
-        "tech": "HTML, CSS, JavaScript",
+        "summary": "Corrige el test de atención d2 contra los valores de referencia por edad. Lo hice para una tesis de psicología donde la corrección se hacía a mano. Reescrito en React y TypeScript: el cálculo vive en funciones puras cubiertas por 19 tests, así un umbral clínico mal tipeado rompe un test en vez de devolver en silencio una corrección equivocada.",
+        "tech": "React, TypeScript, Vite, Vitest",
         "href": "https://juanfranciscofurfuri.github.io/CalculadoraTestPsico/",
         "repo": "https://github.com/juanfranciscofurfuri/CalculadoraTestPsico"
       },
@@ -177,16 +177,16 @@
   "marquee": [
     "WordPress",
     "Elementor",
-    "Divi",
     "HTML",
     "CSS",
     "JavaScript",
-    "Node.js",
+    "TypeScript",
     "React",
+    "Node.js",
     "Astro",
+    "Vitest",
     "Netlify",
     "Git",
-    "English C1",
-    "GMT-3"
+    "English C1"
   ]
 }
