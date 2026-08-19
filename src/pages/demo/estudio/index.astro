@@ -3,54 +3,45 @@ import { Image } from 'astro:assets';
 import DemoLayout from '../../../layouts/DemoLayout.astro';
 import '@fontsource-variable/instrument-sans';
 import justicia from '../../../assets/demo-legal/justicia.jpg';
-import fachada from '../../../assets/demo-legal/fachada.jpg';
 
 const areas = [
   {
     name: 'Derecho laboral',
     body: 'Despidos, accidentes de trabajo, trabajo no registrado. Representamos al trabajador y también a la empresa, nunca en el mismo conflicto.',
+    items: ['Despido sin causa', 'Accidente de trabajo', 'Trabajo no registrado', 'Acuerdos de desvinculación'],
   },
   {
     name: 'Familia y sucesiones',
     body: 'Divorcios, cuota alimentaria, régimen de comunicación, declaratoria de herederos y partición de bienes.',
+    items: ['Divorcio', 'Cuota alimentaria', 'Régimen de comunicación', 'Sucesiones'],
   },
   {
     name: 'Daños y perjuicios',
-    body: 'Accidentes de tránsito, mala praxis, reclamos a compañías de seguro que dilatan el pago.',
+    body: 'Accidentes de tránsito, mala praxis, y reclamos a compañías de seguro que dilatan el pago.',
+    items: ['Accidentes de tránsito', 'Mala praxis', 'Reclamos a aseguradoras'],
   },
   {
     name: 'Derecho comercial',
     body: 'Constitución de sociedades, contratos entre socios, conflictos societarios y cobro de deudas.',
+    items: ['Sociedades', 'Contratos entre socios', 'Cobro de deudas'],
   },
   {
     name: 'Defensa del consumidor',
     body: 'Reclamos contra bancos, telefónicas y empresas de servicios. La mayoría se resuelve sin llegar a juicio.',
-  },
-  {
-    name: 'Contratos',
-    body: 'Redacción y revisión de alquileres, locación de obra, distribución y confidencialidad.',
+    items: ['Bancos', 'Telefonía', 'Servicios públicos'],
   },
 ];
 
 const steps = [
-  {
-    t: 'Primera reunión',
-    b: 'Cuarenta minutos, sin cargo, presencial o por videollamada. Salís sabiendo si tenés un caso y cuánto puede tardar.',
-  },
-  {
-    t: 'Presupuesto por escrito',
-    b: 'Honorarios cerrados o pacto de cuota litis, según el caso. Queda firmado antes de que empecemos.',
-  },
-  {
-    t: 'Novedades cada quince días',
-    b: 'Recibís un mail con qué pasó en el expediente, aunque no haya pasado nada. Sin tener que llamar a preguntar.',
-  },
+  { n: '01', t: 'Primera reunión', b: 'Cuarenta minutos, sin cargo, presencial o por videollamada. Salís sabiendo si tenés un caso y cuánto puede tardar.' },
+  { n: '02', t: 'Presupuesto por escrito', b: 'Honorarios cerrados o pacto de cuota litis, según el caso. Queda firmado antes de que empecemos.' },
+  { n: '03', t: 'Novedades cada quince días', b: 'Recibís un mail con qué pasó en el expediente, aunque no haya pasado nada. Sin tener que llamar a preguntar.' },
 ];
 
 const team = [
-  { name: 'Marina Ávila', role: 'Socia. Laboral y daños', extra: 'Matrícula 4.812, Colegio de Abogados de Mendoza. UNCuyo, 2004.' },
-  { name: 'Rodrigo Nieto', role: 'Socio. Comercial y contratos', extra: 'Matrícula 5.103, Colegio de Abogados de Mendoza. UNCuyo, 2007.' },
-  { name: 'Paula Sanguinetti', role: 'Asociada. Familia y sucesiones', extra: 'Matrícula 7.640, Colegio de Abogados de Mendoza. UNCuyo, 2016.' },
+  { name: 'Marina Ávila', role: 'Socia · Laboral y daños', extra: 'Matrícula 4.812, Colegio de Abogados de Mendoza. UNCuyo, 2004.', ini: 'MA' },
+  { name: 'Rodrigo Nieto', role: 'Socio · Comercial y contratos', extra: 'Matrícula 5.103, Colegio de Abogados de Mendoza. UNCuyo, 2007.', ini: 'RN' },
+  { name: 'Paula Sanguinetti', role: 'Asociada · Familia y sucesiones', extra: 'Matrícula 7.640, Colegio de Abogados de Mendoza. UNCuyo, 2016.', ini: 'PS' },
 ];
 ---
 
@@ -58,126 +49,143 @@ const team = [
   title="Ávila Nieto Abogados - Estudio jurídico en Mendoza"
   description="Estudio jurídico en Mendoza. Laboral, familia, sucesiones, daños y derecho comercial. Primera consulta sin cargo."
   path="demo/estudio"
-  themeColor="#16233f"
+  themeColor="#eef0f4"
 >
   <header class="nav">
     <div class="wrap nav__inner">
       <a class="nav__brand" href="#top">
-        <span class="nav__mark">AN</span>
-        <span>Ávila Nieto <span class="nav__sub">Abogados</span></span>
+        <span class="nav__mark" aria-hidden="true">AN</span>
+        <span class="nav__names">Ávila Nieto <b>Abogados</b></span>
       </a>
       <nav class="nav__links" aria-label="Secciones">
         <a href="#areas">Áreas</a>
         <a href="#trabajo">Cómo trabajamos</a>
-        <a href="#equipo">El equipo</a>
+        <a href="#equipo">Equipo</a>
       </nav>
-      <a class="btn nav__cta" href="#consulta">Pedir una consulta</a>
+      <a class="btn btn--solid nav__cta" href="#consulta">Pedir una consulta</a>
     </div>
   </header>
 
   <main id="top">
+    <!-- Tipografía enorme sobre plata, sin foto de fondo. La única imagen del
+         sitio entra como objeto flotante, no como decorado. -->
     <section class="hero">
-      <div class="wrap hero__grid">
-        <div>
-          <h1 class="hero__title">Un abogado que te contesta el teléfono</h1>
+      <div class="wrap">
+        <p class="hero__kicker">Estudio jurídico · Mendoza · desde 1998</p>
+        <h1 class="hero__title">
+          Un abogado que te <em>contesta</em> el teléfono
+        </h1>
+
+        <div class="hero__grid">
           <p class="hero__sub">
-            Estudio jurídico en la ciudad de Mendoza. La primera consulta no se cobra
-            y de la reunión salís sabiendo si conviene litigar o no.
+            La primera consulta no se cobra. De esa reunión salís sabiendo si
+            conviene litigar, cuánto puede tardar y cuánto va a costar.
           </p>
+
           <div class="hero__cta">
-            <a class="btn btn--lg" href="#consulta">Pedir una consulta</a>
+            <a class="btn btn--solid" href="#consulta">Pedir una consulta</a>
             <a class="link" href="#areas">Ver áreas de práctica</a>
           </div>
         </div>
-        <Image
-          class="hero__img"
-          src={justicia}
-          alt="Palacio de Justicia de la provincia de Mendoza"
-          widths={[520, 760, 1000]}
-          sizes="(min-width: 900px) 44vw, 92vw"
-          format="webp"
-          quality={70}
-          loading="eager"
-          fetchpriority="high"
-        />
+      </div>
+
+      <div class="wrap hero__figWrap">
+        <figure class="hero__fig">
+          <Image
+            src={justicia}
+            alt="Palacio de Justicia de la provincia de Mendoza"
+            widths={[700, 1000, 1300]}
+            sizes="(min-width: 1100px) 1040px, 92vw"
+            format="webp"
+            quality={70}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </figure>
       </div>
     </section>
 
+    <!-- Numerales gigantes: el dato pesa más que la etiqueta -->
     <section class="facts">
       <div class="wrap facts__grid">
-        <div><p class="facts__v">1998</p><p class="facts__k">Año de fundación</p></div>
-        <div><p class="facts__v">Sin cargo</p><p class="facts__k">Primera consulta</p></div>
-        <div><p class="facts__v">24 horas</p><p class="facts__k">Plazo de respuesta</p></div>
-        <div><p class="facts__v">Mendoza y San Rafael</p><p class="facts__k">Dónde atendemos</p></div>
+        <div class="fact"><p class="fact__v">28</p><p class="fact__k">Años de ejercicio</p></div>
+        <div class="fact"><p class="fact__v">0</p><p class="fact__k">Costo de la primera consulta</p></div>
+        <div class="fact"><p class="fact__v">24<span>h</span></p><p class="fact__k">Plazo de respuesta</p></div>
+        <div class="fact"><p class="fact__v">2</p><p class="fact__k">Oficinas: Mendoza y San Rafael</p></div>
       </div>
     </section>
 
-    <section class="section" id="areas">
+    <!-- Acordeón: cada área se abre sola. Es una interacción distinta a la de
+         los otros dos sitios, y deja la página corta. -->
+    <section class="areas" id="areas">
+      <div class="wrap areas__grid">
+        <div class="areas__side">
+          <h2 class="h2">Áreas de práctica</h2>
+          <p class="areas__hint">Tocá un área para ver qué incluye</p>
+        </div>
+
+        <div class="acc">
+          {areas.map((a, i) => (
+            <details class="acc__item" open={i === 0}>
+              <summary class="acc__sum">
+                <span class="acc__name">{a.name}</span>
+                <span class="acc__ico" aria-hidden="true"></span>
+              </summary>
+              <div class="acc__body">
+                <p>{a.body}</p>
+                <ul class="acc__chips">
+                  {a.items.map((it) => <li>{it}</li>)}
+                </ul>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="steps" id="trabajo">
       <div class="wrap">
-        <h2 class="h2">Áreas de práctica</h2>
-        <div class="areas">
-          {areas.map((a) => (
-            <article class="area">
-              <h3 class="area__t">{a.name}</h3>
-              <p class="area__b">{a.body}</p>
+        <h2 class="h2 h2--center">Cómo trabajamos</h2>
+        <div class="steps__grid">
+          {steps.map((s) => (
+            <article class="card">
+              <p class="card__n">{s.n}</p>
+              <h3 class="card__t">{s.t}</h3>
+              <p class="card__b">{s.b}</p>
             </article>
           ))}
         </div>
       </div>
     </section>
 
-    <section class="band" id="trabajo">
-      <div class="wrap">
-        <h2 class="h2 h2--light">Cómo trabajamos</h2>
-        <div class="steps">
-          {steps.map((s) => (
-            <div class="step">
-              <h3 class="step__t">{s.t}</h3>
-              <p class="step__b">{s.b}</p>
-            </div>
-          ))}
-        </div>
+    <section class="team" id="equipo">
+      <div class="wrap team__head">
+        <h2 class="h2">El equipo</h2>
+        <p class="team__hint">Tres abogados. No hay call center.</p>
+      </div>
+      <div class="team__rail">
+        {team.map((m) => (
+          <article class="person">
+            <span class="person__ini" aria-hidden="true">{m.ini}</span>
+            <h3 class="person__name">{m.name}</h3>
+            <p class="person__role">{m.role}</p>
+            <p class="person__extra">{m.extra}</p>
+          </article>
+        ))}
       </div>
     </section>
 
-    <section class="section" id="equipo">
-      <div class="wrap equipo__grid">
-        <div>
-          <h2 class="h2">El equipo</h2>
-          <ul class="team">
-            {team.map((m) => (
-              <li class="team__row">
-                <p class="team__name">{m.name}</p>
-                <p class="team__role">{m.role}</p>
-                <p class="team__extra">{m.extra}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <Image
-          class="equipo__img"
-          src={fachada}
-          alt="Fachada del Palacio de Justicia de Mendoza"
-          widths={[480, 700]}
-          sizes="(min-width: 900px) 40vw, 92vw"
-          format="webp"
-          quality={68}
-          loading="lazy"
-        />
-      </div>
-    </section>
-
-    <section class="section consulta" id="consulta">
+    <section class="consulta" id="consulta">
       <div class="wrap consulta__grid">
         <div>
           <h2 class="h2">Pedir una consulta</h2>
           <p class="consulta__lede">
-            Contanos en dos líneas qué te pasa. Te respondemos dentro de las 24 horas
+            Contanos en dos líneas qué te pasa. Respondemos dentro de las 24 horas
             hábiles y coordinamos la primera reunión, que no se cobra.
           </p>
-          <p class="consulta__note">
-            Lo que nos cuentes queda bajo secreto profesional desde el primer mensaje,
-            seamos o no tus abogados después.
+          <p class="consulta__seal">
+            Lo que nos cuentes queda bajo secreto profesional desde el primer
+            mensaje, seamos o no tus abogados después.
           </p>
           <dl class="consulta__data">
             <div><dt>Dirección</dt><dd>Av. España 1200, piso 4, Ciudad de Mendoza</dd></div>
@@ -212,7 +220,7 @@ const team = [
             <label for="e-msg">Contanos brevemente</label>
             <textarea id="e-msg" name="mensaje" rows="5" required></textarea>
           </div>
-          <button class="btn btn--lg" type="submit">Enviar consulta</button>
+          <button class="btn btn--solid" type="submit">Enviar consulta</button>
           <p class="form__note">Este formulario es parte de un ejemplo y no envía nada.</p>
         </form>
       </div>
@@ -225,34 +233,37 @@ const team = [
         <p class="ftr__brand">Ávila Nieto Abogados</p>
         <p class="ftr__line">Av. España 1200, piso 4, Ciudad de Mendoza</p>
       </div>
-      <p class="ftr__credits">
-        Fotos: Vsottano y Ccarosio (CC BY-SA 3.0), vía Wikimedia Commons.
-      </p>
+      <p class="ftr__credits">Foto: Vsottano (CC BY-SA 3.0), vía Wikimedia Commons.</p>
     </div>
   </footer>
 </DemoLayout>
 
 <style is:global>
   :root {
-    --navy: #16233f;
-    --navy-soft: #2b3c60;
-    --paper: #f6f6f3;
+    --silver: #eef0f4;
+    --silver-deep: #e2e5ec;
     --white: #ffffff;
+    --navy: #101728;
+    --slate: #55607a;
     --cobalt: #1f4ea8;
-    --muted: #545d6e;
-    --line: #dcdcd6;
     --ui: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
+    --ease: cubic-bezier(0.32, 0.72, 0, 1);
+    /* Sombras difusas y teñidas, nunca negro puro */
+    --lift: 0 2px 4px rgba(16, 23, 40, 0.04), 0 12px 28px -12px rgba(16, 23, 40, 0.16);
+    --lift-hi: 0 4px 8px rgba(16, 23, 40, 0.05), 0 30px 60px -24px rgba(16, 23, 40, 0.28);
   }
 
   *, *::before, *::after { box-sizing: border-box; }
   * { margin: 0; }
+  html { overflow-x: clip; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
   body {
-    background: var(--paper);
+    background: var(--silver);
     color: var(--navy);
     font-family: var(--ui);
-    font-size: 1.02rem;
-    line-height: 1.62;
+    font-size: 1.03rem;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -261,170 +272,298 @@ const team = [
   button, input, textarea, select { font: inherit; color: inherit; }
   :focus-visible { outline: 2px solid var(--cobalt); outline-offset: 3px; }
 
-  .wrap { width: 100%; max-width: 1120px; margin-inline: auto; padding-inline: 1.25rem; }
-  .section { padding-block: clamp(3.5rem, 8vw, 6rem); }
+  .wrap { width: 100%; max-width: 1160px; margin-inline: auto; padding-inline: 1.5rem; }
 
   .h2 {
-    font-size: clamp(1.8rem, 1.3rem + 2vw, 2.6rem);
-    line-height: 1.12;
-    letter-spacing: -0.02em;
+    font-size: clamp(2rem, 1.4rem + 2.6vw, 3.4rem);
+    line-height: 1.04;
+    letter-spacing: -0.04em;
     font-weight: 600;
-    max-width: 20ch;
+    max-width: 16ch;
   }
-  .h2--light { color: var(--white); }
+  .h2--center { max-width: none; text-align: center; }
 
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: var(--cobalt);
-    color: var(--white);
-    padding: 0.7rem 1.2rem;
-    border: 1px solid var(--cobalt);
-    border-radius: 4px;
-    text-decoration: none;
+    padding: 0.85rem 1.5rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
     font-weight: 500;
+    text-decoration: none;
     white-space: nowrap;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition: transform 0.45s var(--ease), background-color 0.45s var(--ease),
+                box-shadow 0.45s var(--ease);
   }
-  .btn:hover { background: #1a4290; }
-  .btn:active { transform: translateY(1px); }
-  .btn--lg { padding: 0.9rem 1.5rem; }
+  .btn:active { transform: scale(0.98); }
+  .btn--solid {
+    background: var(--navy);
+    color: var(--white);
+    box-shadow: var(--lift);
+  }
+  .btn--solid:hover { background: #1c2740; box-shadow: var(--lift-hi); }
 
   .link {
     color: var(--cobalt);
-    text-decoration: none;
-    border-bottom: 1px solid currentColor;
     font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(31, 78, 168, 0.35);
+    transition: border-color 0.4s var(--ease);
   }
+  .link:hover { border-bottom-color: currentColor; }
 
-  /* Nav ------------------------------------------------------------------ */
-  .nav { background: var(--white); border-bottom: 1px solid var(--line); }
-  .nav__inner { display: flex; align-items: center; gap: 1.25rem; height: 76px; }
-  .nav__brand {
+  /* Nav: cápsula flotante clara con sombra difusa ------------------------- */
+  .nav { position: sticky; top: 0.85rem; z-index: 30; padding-top: 1rem; }
+  .nav__inner {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    text-decoration: none;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    gap: 1.5rem;
+    padding: 0.55rem 0.6rem 0.55rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    box-shadow: var(--lift);
   }
+  .nav__brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
   .nav__mark {
     display: grid;
     place-items: center;
-    width: 34px;
-    height: 34px;
+    width: 34px; height: 34px;
+    border-radius: 999px;
     background: var(--navy);
     color: var(--white);
-    border-radius: 4px;
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     letter-spacing: 0.04em;
+    font-weight: 600;
   }
-  .nav__sub { color: var(--muted); font-weight: 400; }
-  .nav__links { display: none; gap: 1.5rem; margin-left: auto; font-size: 0.95rem; color: var(--muted); }
-  .nav__links a { text-decoration: none; }
+  .nav__names { font-weight: 500; letter-spacing: -0.01em; }
+  .nav__names b { color: var(--slate); font-weight: 400; }
+  .nav__links { display: none; gap: 1.5rem; margin-left: auto; font-size: 0.94rem; color: var(--slate); }
+  .nav__links a { text-decoration: none; transition: color 0.4s var(--ease); }
   .nav__links a:hover { color: var(--navy); }
-  .nav__cta { margin-left: auto; font-size: 0.9rem; padding: 0.55rem 1rem; }
-  @media (min-width: 900px) {
-    .nav__links { display: flex; }
-    .nav__cta { margin-left: 0; }
-  }
+  .nav__cta { margin-left: auto; padding: 0.6rem 1.1rem; font-size: 0.9rem; }
+  @media (min-width: 900px) { .nav__links { display: flex; } .nav__cta { margin-left: 0; } }
 
-  /* Hero ----------------------------------------------------------------- */
-  .hero { background: var(--white); border-bottom: 1px solid var(--line); }
-  .hero__grid {
-    display: grid;
-    gap: 2.5rem;
-    align-items: center;
-    padding-block: clamp(3rem, 7vw, 5rem);
+  /* Hero ------------------------------------------------------------------ */
+  .hero { padding-top: clamp(3rem, 7vw, 6rem); }
+  .hero__kicker {
+    font-size: 0.74rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--slate);
   }
   .hero__title {
-    font-size: clamp(2.2rem, 1.4rem + 3.4vw, 3.7rem);
-    line-height: 1.06;
-    letter-spacing: -0.03em;
-    font-weight: 600;
-    max-width: 15ch;
-  }
-  .hero__sub { margin-top: 1.2rem; color: var(--muted); font-size: 1.12rem; max-width: 46ch; }
-  .hero__cta { margin-top: 2rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
-  .hero__img { border-radius: 4px; aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
-  @media (min-width: 900px) {
-    .hero__grid { grid-template-columns: 1.15fr 0.85fr; gap: 3.5rem; }
-  }
-
-  /* Facts ---------------------------------------------------------------- */
-  .facts { background: var(--paper); border-bottom: 1px solid var(--line); }
-  .facts__grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    padding-block: 2rem;
-  }
-  .facts__v { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; }
-  .facts__k { margin-top: 0.1rem; font-size: 0.85rem; color: var(--muted); }
-  @media (min-width: 820px) { .facts__grid { grid-template-columns: repeat(4, 1fr); } }
-
-  /* Areas ---------------------------------------------------------------- */
-  .areas { margin-top: 2.5rem; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
-  .area { background: var(--white); padding: 1.5rem; }
-  .area__t { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
-  .area__b { margin-top: 0.5rem; color: var(--muted); font-size: 0.96rem; }
-  @media (min-width: 700px) { .areas { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 1000px) { .areas { grid-template-columns: repeat(3, 1fr); } }
-
-  /* Band ----------------------------------------------------------------- */
-  .band { background: var(--navy); color: #dfe4ee; padding-block: clamp(3.5rem, 8vw, 5.5rem); }
-  .steps { margin-top: 2.5rem; display: grid; gap: 2rem; }
-  .step__t { color: var(--white); font-size: 1.15rem; font-weight: 600; }
-  .step__b { margin-top: 0.5rem; color: #b9c4da; max-width: 40ch; }
-  @media (min-width: 860px) { .steps { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; } }
-
-  /* Equipo --------------------------------------------------------------- */
-  .equipo__grid { display: grid; gap: 2.5rem; align-items: center; }
-  .team { margin-top: 2rem; padding: 0; list-style: none; border-top: 1px solid var(--line); }
-  .team__row { padding-block: 1.2rem; border-bottom: 1px solid var(--line); }
-  .team__name { font-weight: 600; font-size: 1.1rem; }
-  .team__role { color: var(--cobalt); font-size: 0.92rem; }
-  .team__extra { margin-top: 0.3rem; color: var(--muted); font-size: 0.88rem; }
-  .equipo__img { border-radius: 4px; }
-  @media (min-width: 900px) { .equipo__grid { grid-template-columns: 1.1fr 0.9fr; gap: 3.5rem; } }
-
-  /* Consulta ------------------------------------------------------------- */
-  .consulta { background: var(--white); border-top: 1px solid var(--line); }
-  .consulta__grid { display: grid; gap: 2.5rem; }
-  .consulta__lede { margin-top: 1rem; color: var(--muted); max-width: 46ch; }
-  .consulta__note {
     margin-top: 1.2rem;
-    padding-left: 1rem;
-    border-left: 3px solid var(--cobalt);
+    font-size: clamp(2.6rem, 1.2rem + 6vw, 6.4rem);
+    line-height: 0.96;
+    letter-spacing: -0.05em;
+    font-weight: 600;
+    max-width: 13ch;
+  }
+  .hero__title em { font-style: italic; font-weight: 600; }
+
+  .hero__grid { margin-top: 2.5rem; display: grid; gap: 1.75rem; }
+  .hero__sub { color: var(--slate); font-size: 1.12rem; max-width: 44ch; }
+  .hero__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
+
+  .hero__figWrap { margin-top: clamp(3rem, 6vw, 5rem); }
+  .hero__fig {
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: var(--lift-hi);
+    transition: transform 0.8s var(--ease);
+  }
+  .hero__fig img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; object-position: center 38%; }
+  .hero__fig:hover { transform: translateY(-6px); }
+
+  @media (min-width: 900px) {
+    .hero__grid { grid-template-columns: 1fr auto; align-items: end; gap: 3rem; }
+  }
+
+  /* Datos ------------------------------------------------------------------ */
+  .facts { padding-block: clamp(3.5rem, 8vw, 6rem); }
+  .facts__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+  .fact__v {
+    font-size: clamp(3rem, 2rem + 3.4vw, 5rem);
+    line-height: 0.9;
+    letter-spacing: -0.055em;
+    font-weight: 600;
+  }
+  .fact__v span { font-size: 0.42em; letter-spacing: -0.02em; color: var(--slate); }
+  .fact__k { margin-top: 0.7rem; font-size: 0.9rem; color: var(--slate); max-width: 22ch; }
+  @media (min-width: 860px) { .facts__grid { grid-template-columns: repeat(4, 1fr); gap: 2.5rem; } }
+
+  /* Acordeón --------------------------------------------------------------- */
+  .areas { padding-block: clamp(3.5rem, 8vw, 6rem); }
+  .areas__grid { display: grid; gap: 2.5rem; }
+  .areas__hint { margin-top: 1rem; color: var(--slate); font-size: 0.92rem; }
+
+  .acc { display: grid; gap: 0.75rem; }
+
+  .acc__item {
+    border-radius: 20px;
+    background: var(--white);
+    box-shadow: var(--lift);
+    overflow: hidden;
+    transition: box-shadow 0.5s var(--ease);
+  }
+  .acc__item[open] { box-shadow: var(--lift-hi); }
+
+  .acc__sum {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.15rem 1.4rem;
+    cursor: pointer;
+    list-style: none;
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .acc__sum::-webkit-details-marker { display: none; }
+
+  .acc__ico {
+    position: relative;
+    width: 1.6rem; height: 1.6rem;
+    border-radius: 999px;
+    background: var(--silver-deep);
+    flex: none;
+  }
+  .acc__ico::before, .acc__ico::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0.42rem;
+    height: 1.5px;
+    background: var(--navy);
+    transition: transform 0.5s var(--ease);
+  }
+  .acc__ico::after { transform: rotate(90deg); }
+  .acc__item[open] .acc__ico::after { transform: rotate(0deg); }
+
+  .acc__body { padding: 0 1.4rem 1.4rem; color: var(--slate); }
+  .acc__body p { max-width: 60ch; }
+
+  .acc__chips {
+    margin-top: 1rem;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .acc__chips li {
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    background: var(--silver);
+    font-size: 0.82rem;
     color: var(--navy);
+  }
+
+  @media (min-width: 900px) {
+    .areas__grid { grid-template-columns: 0.75fr 1.25fr; gap: 4rem; align-items: start; }
+    .areas__side { position: sticky; top: 7rem; }
+  }
+
+  /* Pasos ------------------------------------------------------------------ */
+  .steps { padding-block: clamp(3.5rem, 8vw, 6rem); }
+  .steps__grid { margin-top: 3rem; display: grid; gap: 1.25rem; }
+  .card {
+    padding: 2rem 1.75rem 2.25rem;
+    border-radius: 24px;
+    background: var(--white);
+    box-shadow: var(--lift);
+    transition: transform 0.6s var(--ease), box-shadow 0.6s var(--ease);
+  }
+  .card:hover { transform: translateY(-8px); box-shadow: var(--lift-hi); }
+  .card__n { font-size: 0.78rem; letter-spacing: 0.2em; color: var(--cobalt); }
+  .card__t { margin-top: 1.5rem; font-size: 1.3rem; letter-spacing: -0.025em; font-weight: 600; }
+  .card__b { margin-top: 0.6rem; color: var(--slate); font-size: 0.96rem; }
+  @media (min-width: 860px) { .steps__grid { grid-template-columns: repeat(3, 1fr); gap: 1.75rem; } }
+
+  /* Equipo ------------------------------------------------------------------ */
+  .team { padding-block: clamp(3.5rem, 8vw, 6rem); }
+  .team__head { display: flex; align-items: baseline; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .team__hint { color: var(--slate); font-size: 0.92rem; }
+  .team__rail {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-inline: max(1.5rem, calc((100vw - 1160px) / 2 + 1.5rem));
+    padding-bottom: 1rem;
+  }
+  .person {
+    flex: 0 0 min(78vw, 320px);
+    scroll-snap-align: start;
+    padding: 1.75rem;
+    border-radius: 24px;
+    background: var(--white);
+    box-shadow: var(--lift);
+  }
+  .person__ini {
+    display: grid;
+    place-items: center;
+    width: 3rem; height: 3rem;
+    border-radius: 999px;
+    background: var(--silver-deep);
+    color: var(--navy);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .person__name { margin-top: 1.25rem; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.02em; }
+  .person__role { color: var(--cobalt); font-size: 0.9rem; }
+  .person__extra { margin-top: 0.5rem; color: var(--slate); font-size: 0.85rem; }
+
+  /* Consulta ---------------------------------------------------------------- */
+  .consulta { padding-block: clamp(3.5rem, 8vw, 6rem); }
+  .consulta__grid { display: grid; gap: 2.5rem; }
+  .consulta__lede { margin-top: 1.2rem; color: var(--slate); max-width: 44ch; }
+  .consulta__seal {
+    margin-top: 1.5rem;
+    padding: 1rem 1.2rem;
+    border-radius: 16px;
+    background: var(--silver-deep);
     font-size: 0.95rem;
     max-width: 46ch;
   }
-  .consulta__data { margin-top: 2rem; display: grid; gap: 0.8rem; }
-  .consulta__data dt { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+  .consulta__data { margin-top: 2rem; display: grid; gap: 1rem; }
+  .consulta__data dt { font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--slate); }
   .consulta__data dd { margin: 0; }
 
+  .form {
+    padding: 2rem;
+    border-radius: 28px;
+    background: var(--white);
+    box-shadow: var(--lift-hi);
+  }
   .row2 { display: grid; gap: 1rem; }
   .field { display: grid; gap: 0.35rem; margin-bottom: 1rem; }
-  .field label { font-size: 0.88rem; color: var(--muted); }
+  .field label { font-size: 0.8rem; color: var(--slate); }
   .field input, .field textarea, .field select {
-    background: var(--paper);
-    border: 1px solid #b6bac2;
-    border-radius: 4px;
-    padding: 0.65rem 0.8rem;
+    background: var(--silver);
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 0.75rem 0.9rem;
     width: 100%;
+    transition: background-color 0.4s var(--ease), border-color 0.4s var(--ease);
   }
+  .field input:hover, .field textarea:hover, .field select:hover { border-color: var(--silver-deep); }
+  .field input:focus, .field textarea:focus { background: var(--white); }
   .field textarea { resize: vertical; }
-  .form__note { margin-top: 0.9rem; font-size: 0.84rem; color: var(--muted); }
-  @media (min-width: 860px) {
-    .consulta__grid { grid-template-columns: 0.95fr 1.05fr; gap: 3.5rem; }
+  .form__note { margin-top: 0.9rem; font-size: 0.82rem; color: var(--slate); }
+  @media (min-width: 880px) {
+    .consulta__grid { grid-template-columns: 0.9fr 1.1fr; gap: 4rem; align-items: start; }
     .row2 { grid-template-columns: 1fr 1fr; }
+    .form { padding: 2.5rem; }
   }
 
-  /* Footer --------------------------------------------------------------- */
-  .ftr { background: var(--navy); color: #c3cde0; padding-block: 2.2rem; }
+  /* Pie ---------------------------------------------------------------------- */
+  .ftr { margin-top: 2rem; background: var(--navy); color: #c3cde0; padding-block: 2.5rem; }
   .ftr__grid { display: grid; gap: 1.2rem; }
   .ftr__brand { color: var(--white); font-weight: 600; font-size: 1.1rem; }
   .ftr__line { margin-top: 0.2rem; font-size: 0.9rem; }

@@ -1,0 +1,97 @@
+---
+// Logo "JF web dev".
+// El chip es la marca: un cuadrado ámbar con el monograma calado, que se inclina
+// en 3D al pasar el mouse. El cursor de bloque que parpadea es la referencia al
+// monitor de fósforo ámbar sobre la que está construido todo el sitio.
+interface Props {
+  href?: string;
+  size?: number;
+}
+const { href = '/', size = 38 } = Astro.props;
+---
+
+<a class="logo" href={href} aria-label="JF web dev, inicio">
+  <span class="logo__chip" style={`--s:${size}px`}>
+    <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="jf-grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffc074" />
+          <stop offset="0.55" stop-color="#f0a63f" />
+          <stop offset="1" stop-color="#c0781f" />
+        </linearGradient>
+      </defs>
+      <rect width="40" height="40" rx="11" fill="url(#jf-grad)" />
+      <!-- Monograma calado: la J y la F comparten el mismo peso de trazo y la
+           misma altura, así se leen como una unidad y no como dos letras. -->
+      <path
+        d="M9 10.5h5.4v13.2c0 3.4-2.1 5.6-5.4 5.6v-4.1c1.1 0 1.6-.6 1.6-1.9V10.5Z
+           M17.6 10.5H31v3.9h-9.5v3.6h8.3v3.9h-8.3v7.4h-3.9V10.5Z"
+        fill="#160d02"
+      />
+    </svg>
+  </span>
+
+  <span class="logo__type">
+    <span class="logo__word">web dev</span>
+    <span class="logo__caret" aria-hidden="true"></span>
+  </span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    perspective: 500px;
+  }
+
+  .logo__chip {
+    width: var(--s, 38px);
+    height: var(--s, 38px);
+    display: block;
+    border-radius: 11px;
+    box-shadow: 0 0 0 1px rgba(240, 166, 63, 0.28),
+                0 14px 30px -14px rgba(240, 166, 63, 0.75);
+    transition: transform 0.6s var(--ease);
+    transform-style: preserve-3d;
+  }
+
+  .logo:hover .logo__chip {
+    transform: rotateY(22deg) rotateX(-9deg) translateZ(6px);
+  }
+
+  .logo__chip svg { width: 100%; height: 100%; border-radius: inherit; }
+
+  .logo__type {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .logo__word {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--text);
+  }
+
+  .logo__caret {
+    width: 0.42rem;
+    height: 0.95rem;
+    background: var(--accent);
+    border-radius: 1px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .logo__caret { animation: blink 1.15s steps(1, end) infinite; }
+    @keyframes blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo:hover .logo__chip { transform: none; }
+  }
+</style>

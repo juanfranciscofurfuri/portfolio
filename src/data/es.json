@@ -16,7 +16,11 @@
     "ctaPrimary": "Hablemos",
     "ctaSecondary": "Ver trabajos",
     "imageAlt": "Espacio Gropius, sitio de coworking construido alrededor de un embudo de reservas",
-    "imageCaption": "Espacio Gropius. Sitio de coworking construido alrededor de un embudo de reservas."
+    "imageCaption": "Espacio Gropius. Sitio de coworking construido alrededor de un embudo de reservas.",
+    "eyebrow": "Desarrollo web en Mendoza",
+    "headlineA": "Dejá de alquilar",
+    "headlineB": "tu presencia online.",
+    "scrollHint": "Trabajos"
   },
   "proof": [
     {
@@ -165,5 +169,22 @@
   "footer": {
     "demoNote": "Los dos demos de esta página son proyectos conceptuales. Los hice yo para mostrar cómo trabajo, no son trabajos de clientes.",
     "rights": "Hecho en Mendoza, Argentina."
-  }
+  },
+  "brand": {
+    "name": "JF web dev",
+    "person": "Juan Furfuri"
+  },
+  "marquee": [
+    "WordPress",
+    "Elementor",
+    "Divi",
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "Astro",
+    "Netlify",
+    "Git",
+    "English C1",
+    "GMT-3"
+  ]
 }

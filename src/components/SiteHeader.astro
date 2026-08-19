@@ -1,4 +1,6 @@
 ---
+import Logo from './Logo.astro';
+
 interface Props {
   lang: 'en' | 'es';
   nav: { work: string; approach: string; about: string; cta: string; langLabel: string };
@@ -10,98 +12,115 @@ const otherCode = lang === 'en' ? 'ES' : 'EN';
 ---
 
 <header class="hdr">
-  <div class="container hdr__inner">
-    <a class="hdr__brand" href={`${base}/`}>
-      <span class="hdr__mark" aria-hidden="true">JF</span>
-      <span class="hdr__name">Juan Furfuri</span>
-    </a>
+  <div class="container">
+    <div class="hdr__pill">
+      <Logo href={`${base}/`} />
 
-    <nav class="hdr__nav" aria-label={lang === 'en' ? 'Sections' : 'Secciones'}>
-      <a href={`${base}/#work`}>{nav.work}</a>
-      <a href={`${base}/#approach`}>{nav.approach}</a>
-      <a href={`${base}/#about`}>{nav.about}</a>
-    </nav>
+      <nav class="hdr__nav" aria-label={lang === 'en' ? 'Sections' : 'Secciones'}>
+        <a href={`${base}/#work`}><span>{nav.work}</span></a>
+        <a href={`${base}/#approach`}><span>{nav.approach}</span></a>
+        <a href={`${base}/#about`}><span>{nav.about}</span></a>
+      </nav>
 
-    <div class="hdr__end">
-      <a class="hdr__lang" href={otherHref} lang={lang === 'en' ? 'es' : 'en'} aria-label={nav.langLabel}>
-        {otherCode}
-      </a>
-      <a class="btn btn--primary hdr__cta" href={`${base}/#contact`}>{nav.cta}</a>
+      <div class="hdr__end">
+        <a class="hdr__lang" href={otherHref} lang={lang === 'en' ? 'es' : 'en'} aria-label={nav.langLabel}>
+          {otherCode}
+        </a>
+        <a class="btn btn--primary hdr__cta" href={`${base}/#contact`}>
+          {nav.cta}
+          <span class="btn__ico" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor"
+                    stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+      </div>
     </div>
   </div>
 </header>
 
 <style>
+  /* Isla flotante, despegada del borde. Nada de barra pegada de lado a lado. */
   .hdr {
     position: sticky;
-    top: 0;
-    z-index: 20;
-    background: color-mix(in srgb, var(--bg) 88%, transparent);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line);
+    top: var(--sp-3);
+    z-index: 30;
+    padding-top: var(--sp-3);
   }
 
-  .hdr__inner {
-    height: 68px;
+  .hdr__pill {
     display: flex;
     align-items: center;
     gap: var(--sp-4);
-  }
-
-  .hdr__brand {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-2);
-    text-decoration: none;
-    font-weight: 500;
-  }
-
-  .hdr__mark {
-    font-family: var(--font-mono);
-    font-size: var(--step--1);
-    letter-spacing: 0.02em;
-    color: var(--accent);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius);
-    padding: 0.25rem 0.4rem;
+    height: 62px;
+    padding-inline: 0.75rem 0.75rem;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--line);
+    background: rgba(10, 11, 13, 0.62);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07),
+                0 22px 60px -30px rgba(0, 0, 0, 0.9);
   }
 
   .hdr__nav {
     display: none;
-    gap: var(--sp-4);
+    gap: 0.35rem;
     margin-left: auto;
-    font-size: var(--step--1);
-    color: var(--text-muted);
   }
 
-  .hdr__nav a { text-decoration: none; transition: color 0.2s var(--ease); }
-  .hdr__nav a:hover { color: var(--text); }
+  /* Cada link es su propia pastilla: el hover llena de luz en vez de subrayar. */
+  .hdr__nav a {
+    position: relative;
+    padding: 0.45rem 0.85rem;
+    border-radius: var(--r-pill);
+    font-size: var(--step--1);
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.5s var(--ease), background-color 0.5s var(--ease);
+  }
+
+  .hdr__nav a:hover {
+    color: var(--text);
+    background: var(--bg-glass);
+  }
 
   .hdr__end {
     display: flex;
     align-items: center;
-    gap: var(--sp-2);
+    gap: 0.5rem;
     margin-left: auto;
   }
 
   .hdr__lang {
-    font-family: var(--font-mono);
-    font-size: var(--step--1);
-    text-decoration: none;
-    color: var(--text-muted);
+    display: grid;
+    place-items: center;
+    min-width: 2.35rem;
+    height: 2.35rem;
+    border-radius: var(--r-pill);
     border: 1px solid var(--line-strong);
-    border-radius: var(--radius);
-    padding: 0.45rem 0.6rem;
-    line-height: 1;
-    transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+    background: var(--bg-glass);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.5s var(--ease), border-color 0.5s var(--ease);
   }
 
-  .hdr__lang:hover { color: var(--text); border-color: var(--text-dim); }
+  .hdr__lang:hover { color: var(--accent); border-color: rgba(240, 166, 63, 0.45); }
 
-  .hdr__cta { padding: 0.55rem 1rem; font-size: var(--step--1); }
+  .hdr__cta {
+    padding: 0.4rem 0.4rem 0.4rem 1.1rem;
+    font-size: var(--step--1);
+  }
 
-  @media (min-width: 860px) {
+  .hdr__cta .btn__ico { width: 1.75rem; height: 1.75rem; }
+
+  @media (min-width: 900px) {
     .hdr__nav { display: flex; }
     .hdr__end { margin-left: 0; }
   }
+
 </style>

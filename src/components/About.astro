@@ -4,25 +4,59 @@ interface Props {
   cvHref: string;
 }
 const { about, cvHref } = Astro.props;
+const [lead, ...rest] = about.body;
 ---
 
-<section class="section" id="about">
-  <div class="container">
-    <div class="about__inner">
-      <h2 class="about__heading">{about.heading}</h2>
-      {about.body.map((p) => <p class="about__p">{p}</p>)}
-      <a class="btn btn--ghost about__cv" href={cvHref} download>{about.cvLabel}</a>
+<section class="section about" id="about">
+  <div class="container about__grid">
+    <h2 class="about__heading reveal">{about.heading}</h2>
+
+    <div class="about__body">
+      <!-- El primer párrafo entra a escala de título: la jerarquía se nota
+           cuando algo es tres veces más grande, no un veinte por ciento. -->
+      <p class="about__lead reveal">{lead}</p>
+      {rest.map((p, i) => <p class="about__p reveal" style={`--i:${i + 1}`}>{p}</p>)}
+
+      <a class="btn btn--ghost about__cv reveal" style="--i:2" href={cvHref} download data-magnetic="6">
+        {about.cvLabel}
+        <span class="btn__ico" aria-hidden="true">
+          <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
+            <path d="M6 2v6.5M6 8.5 3.5 6M6 8.5 8.5 6M2.5 10h7" stroke="currentColor"
+                  stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
     </div>
   </div>
 </section>
 
 <style>
-  .about__inner { max-width: 68ch; }
-  .about__heading { font-size: var(--step-3); }
+  .about__grid { display: grid; gap: var(--sp-5); }
+
+  .about__heading {
+    font-size: var(--step-3);
+    letter-spacing: -0.045em;
+  }
+
+  .about__lead {
+    font-size: var(--step-2);
+    line-height: 1.28;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    max-width: 30ch;
+  }
+
   .about__p {
     margin-top: var(--sp-4);
     color: var(--text-muted);
-    font-size: var(--step-1);
+    max-width: 58ch;
   }
+
   .about__cv { margin-top: var(--sp-5); }
+
+  @media (min-width: 900px) {
+    .about__grid { grid-template-columns: 0.8fr 1.2fr; gap: var(--sp-7); align-items: start; }
+    .about__heading { position: sticky; top: 7rem; }
+    .about__lead { max-width: 26ch; }
+  }
 </style>

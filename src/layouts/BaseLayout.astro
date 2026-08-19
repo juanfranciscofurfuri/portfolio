@@ -7,7 +7,7 @@ interface Props {
   lang: 'en' | 'es';
   title: string;
   description: string;
-  /** Path without locale prefix, e.g. "" for home or "work/gropius" */
+  /** Ruta sin prefijo de idioma, por ejemplo "" para el inicio */
   path?: string;
 }
 
@@ -22,6 +22,7 @@ const person = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Juan Francisco Furfuri',
+  alternateName: 'JF web dev',
   jobTitle: 'Web Developer',
   email: 'mailto:juanfrafurfuri@gmail.com',
   url: site,
@@ -60,7 +61,7 @@ const person = {
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta name="theme-color" content="#0b0c0e" />
+    <meta name="theme-color" content="#060607" />
     <script type="application/ld+json" set:html={JSON.stringify(person)} />
     <script is:inline>document.documentElement.classList.add('js-reveal');</script>
   </head>
@@ -69,8 +70,12 @@ const person = {
     <slot />
 
     <script>
-      const items = document.querySelectorAll('.reveal');
-      if (items.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+      // 1. Entrada al scrollear ------------------------------------------------
+      const items = document.querySelectorAll<HTMLElement>('.reveal');
+      if (items.length && !reduced) {
         const io = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {
@@ -80,11 +85,67 @@ const person = {
               }
             }
           },
-          { rootMargin: '0px 0px -8% 0px', threshold: 0.15 }
+          { rootMargin: '0px 0px -6% 0px', threshold: 0.1 }
         );
         items.forEach((el) => io.observe(el));
       } else {
         items.forEach((el) => el.classList.add('is-in'));
+      }
+
+      // El resto es puro adorno: en táctil y en movimiento reducido no corre.
+      if (fine && !reduced) {
+        let frame = 0;
+        const write = (fn: () => void) => {
+          cancelAnimationFrame(frame);
+          frame = requestAnimationFrame(fn);
+        };
+
+        // 2. Foco que sigue al cursor ----------------------------------------
+        document.querySelectorAll<HTMLElement>('[data-lit]').forEach((el) => {
+          el.addEventListener('pointermove', (e) => {
+            const r = el.getBoundingClientRect();
+            write(() => {
+              el.style.setProperty('--px', `${((e.clientX - r.left) / r.width) * 100}%`);
+              el.style.setProperty('--py', `${((e.clientY - r.top) / r.height) * 100}%`);
+            });
+          });
+        });
+
+        // 3. Inclinación 3D ---------------------------------------------------
+        document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((el) => {
+          const max = Number(el.dataset.tilt) || 7;
+          el.addEventListener('pointermove', (e) => {
+            const r = el.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width - 0.5;
+            const y = (e.clientY - r.top) / r.height - 0.5;
+            write(() => {
+              el.style.setProperty('--tilt-y', `${x * max * 2}deg`);
+              el.style.setProperty('--tilt-x', `${-y * max * 2}deg`);
+            });
+          });
+          el.addEventListener('pointerleave', () => {
+            write(() => {
+              el.style.setProperty('--tilt-y', '0deg');
+              el.style.setProperty('--tilt-x', '0deg');
+            });
+          });
+        });
+
+        // 4. Botones magnéticos ----------------------------------------------
+        document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
+          const pull = Number(el.dataset.magnetic) || 10;
+          el.addEventListener('pointermove', (e) => {
+            const r = el.getBoundingClientRect();
+            const x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+            const y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+            write(() => {
+              el.style.transform = `translate(${x * pull}px, ${y * pull * 0.6}px)`;
+            });
+          });
+          el.addEventListener('pointerleave', () => {
+            write(() => { el.style.transform = ''; });
+          });
+        });
       }
     </script>
 
@@ -97,7 +158,7 @@ const person = {
         background: var(--accent);
         color: var(--accent-ink);
         padding: 0.6rem 1rem;
-        border-radius: var(--radius);
+        border-radius: var(--r-pill);
         text-decoration: none;
         font-weight: 500;
       }

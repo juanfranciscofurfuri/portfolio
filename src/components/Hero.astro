@@ -4,7 +4,9 @@ import gropius from '../assets/work/espaciogropius.jpg';
 
 interface Props {
   hero: {
-    headline: string;
+    eyebrow: string;
+    headlineA: string;
+    headlineB: string;
     sub: string;
     ctaPrimary: string;
     ctaSecondary: string;
@@ -14,102 +16,194 @@ interface Props {
   base: string;
 }
 const { hero, base } = Astro.props;
+
+// El título se parte en palabras para que entren de a una. El movimiento es el
+// contenido: la frase se arma delante del que mira.
+const wordsA = hero.headlineA.split(' ');
+const wordsB = hero.headlineB.split(' ');
+let i = 0;
 ---
 
-<section class="hero">
-  <div class="container">
-    <h1 class="hero__title enter" style="--d: 0ms">{hero.headline}</h1>
+<section class="hero" data-lit>
+  <div class="hero__glow" aria-hidden="true"></div>
+
+  <div class="container hero__inner">
+    <p class="tag tag--accent hero__eyebrow"><span class="dot" aria-hidden="true"></span>{hero.eyebrow}</p>
+
+    <h1 class="hero__title">
+      <span class="line">
+        {wordsA.map((w) => <span class="w" style={`--w:${i++}`}><span>{w}</span></span>)}
+      </span>
+      <span class="line line--muted">
+        {wordsB.map((w) => <span class="w" style={`--w:${i++}`}><span>{w}</span></span>)}
+      </span>
+    </h1>
 
     <div class="hero__row">
-      <div class="hero__copy">
-        <p class="hero__sub enter" style="--d: 90ms">{hero.sub}</p>
-        <div class="hero__actions enter" style="--d: 170ms">
-          <a class="btn btn--primary" href={`${base}/#contact`}>{hero.ctaPrimary}</a>
-          <a class="btn btn--ghost" href={`${base}/#work`}>{hero.ctaSecondary}</a>
-        </div>
-      </div>
+      <p class="hero__sub">{hero.sub}</p>
 
-      <figure class="hero__media enter" style="--d: 250ms">
+      <div class="hero__actions">
+        <a class="btn btn--primary" href={`${base}/#contact`} data-magnetic="8">
+          {hero.ctaPrimary}
+          <span class="btn__ico" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
+              <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor"
+                    stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+        <a class="btn btn--ghost" href={`${base}/#work`}>
+          {hero.ctaSecondary}
+          <span class="btn__ico" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
+              <path d="M6 2.5v7M2.5 6h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- La captura se sale del contenedor y pisa la sección siguiente: es lo que
+       rompe la grilla y le da profundidad a la página. -->
+  <div class="container hero__stageWrap">
+    <figure class="hero__stage shell reveal" data-tilt="5">
+      <div class="core hero__frame">
         <Image
           src={gropius}
           alt={hero.imageAlt}
-          widths={[560, 800, 1120]}
-          sizes="(min-width: 960px) 48vw, 92vw"
+          widths={[640, 960, 1320]}
+          sizes="(min-width: 1100px) 1100px, 94vw"
           format="webp"
           quality={72}
           loading="eager"
           fetchpriority="high"
         />
-        <figcaption>{hero.imageCaption}</figcaption>
-      </figure>
-    </div>
+        <span class="hero__glare" aria-hidden="true"></span>
+      </div>
+      <figcaption class="hero__cap mono">{hero.imageCaption}</figcaption>
+    </figure>
   </div>
 </section>
 
 <style>
   .hero {
+    position: relative;
+    isolation: isolate;
     padding-top: var(--sp-6);
-    padding-bottom: var(--sp-6);
-    border-bottom: 1px solid var(--line);
+  }
+
+  /* El resplandor sigue al cursor en toda la sección. Es el gesto que se repite
+     después en cada tarjeta. */
+  .hero__glow {
+    position: absolute;
+    inset: -20% 0 0;
+    z-index: -1;
+    background:
+      radial-gradient(620px circle at var(--px) var(--py), rgba(240, 166, 63, 0.13), transparent 62%),
+      radial-gradient(900px circle at 12% 0%, rgba(240, 166, 63, 0.07), transparent 60%);
+    transition: background 0.25s linear;
+  }
+
+  .hero__eyebrow { margin-bottom: var(--sp-5); }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px rgba(240, 166, 63, 0.18);
   }
 
   .hero__title {
-    font-size: clamp(2.5rem, 1.55rem + 4.4vw, 4.6rem);
-    letter-spacing: -0.035em;
-    max-width: 17ch;
+    font-size: var(--step-4);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+  }
+
+  .line { display: block; }
+  .line--muted { color: var(--text-dim); }
+
+  /* Cada palabra vive en una ventana que la recorta mientras sube. */
+  .w {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding-right: 0.24em;
+  }
+
+  .w > span { display: inline-block; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .w > span {
+      animation: rise 1s var(--ease) both;
+      animation-delay: calc(var(--w) * 55ms + 80ms);
+    }
+    @keyframes rise {
+      from { transform: translateY(105%) rotate(3deg); }
+      to { transform: none; }
+    }
   }
 
   .hero__row {
     margin-top: var(--sp-5);
     display: grid;
-    gap: var(--sp-5);
+    gap: var(--sp-4);
   }
 
   .hero__sub {
     font-size: var(--step-1);
     color: var(--text-muted);
-    max-width: 42ch;
+    max-width: 40ch;
   }
 
-  .hero__actions {
-    margin-top: var(--sp-4);
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--sp-3);
+  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+
+  /* Escenario de la captura */
+  .hero__stageWrap { margin-top: var(--sp-6); }
+
+  .hero__stage {
+    margin: 0;
+    max-width: 1100px;
+    margin-inline: auto;
   }
 
-  .hero__media img {
-    width: 100%;
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius);
+  .hero__frame { position: relative; }
+  .hero__frame img { width: 100%; }
+
+  /* Brillo que barre la superficie, posicionado por el mismo puntero. */
+  .hero__glare {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(420px circle at var(--px) var(--py),
+                rgba(255, 255, 255, 0.16), transparent 65%);
+    mix-blend-mode: overlay;
+    opacity: 0;
+    transition: opacity 0.6s var(--ease);
   }
 
-  .hero__media figcaption {
-    margin-top: var(--sp-2);
-    font-size: var(--step--1);
+  .hero__stage:hover .hero__glare { opacity: 1; }
+
+  .hero__cap {
+    margin-top: var(--sp-3);
+    padding-inline: 0.5rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--text-dim);
   }
 
-  @media (min-width: 960px) {
-    .hero { padding-top: var(--sp-6); padding-bottom: var(--sp-7); }
+  @media (min-width: 900px) {
+    .hero { padding-top: var(--sp-7); }
     .hero__row {
-      grid-template-columns: 0.85fr 1.15fr;
+      grid-template-columns: 1fr auto;
+      align-items: end;
       gap: var(--sp-6);
-      align-items: start;
+      margin-top: var(--sp-6);
     }
-    .hero__copy { padding-top: var(--sp-2); }
-  }
-
-  /* Entrance: keyframes exist only when motion is welcome, so with reduced
-     motion the content simply renders in place. */
-  @media (prefers-reduced-motion: no-preference) {
-    .enter {
-      animation: enter 0.8s var(--ease) both;
-      animation-delay: var(--d, 0ms);
-    }
-    @keyframes enter {
-      from { opacity: 0; transform: translateY(18px); }
-      to { opacity: 1; transform: none; }
-    }
+    .hero__stageWrap { margin-top: var(--sp-7); margin-bottom: calc(var(--sp-7) * -1); }
+    .hero__stage { transform: perspective(1400px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); }
   }
 </style>

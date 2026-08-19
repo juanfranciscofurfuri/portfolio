@@ -3,48 +3,87 @@ interface Props {
   story: { heading: string; body: string[]; note: string };
 }
 const { story } = Astro.props;
+const words = story.heading.split(' ');
 ---
 
-<section class="story">
-  <div class="container">
-    <div class="story__inner">
-      <h2 class="story__heading reveal">{story.heading}</h2>
-      <div class="story__body reveal">
-        {story.body.map((p) => <p>{p}</p>)}
-        <p class="story__note">{story.note}</p>
+<section class="story" data-lit>
+  <div class="container story__inner">
+    <!-- El título se arma palabra por palabra mientras entra: el movimiento
+         obliga a leerlo, que es justo lo que esta sección necesita. -->
+    <h2 class="story__heading">
+      {words.map((w, i) => (
+        <span class="sw reveal" style={`--i:${i}`}>{w}</span>
+      ))}
+    </h2>
+
+    <div class="story__grid">
+      <div class="story__cols">
+        {story.body.map((p, i) => <p class="reveal" style={`--i:${i}`}>{p}</p>)}
       </div>
+
+      <aside class="story__note shell reveal" style="--i:2">
+        <div class="core story__noteCore">
+          <span class="story__quote mono" aria-hidden="true">/*</span>
+          <p>{story.note}</p>
+        </div>
+      </aside>
     </div>
   </div>
 </section>
 
 <style>
   .story {
-    padding-block: var(--sp-7);
-    background: var(--bg-sunken);
+    position: relative;
+    isolation: isolate;
+    padding-block: var(--sp-8);
+    background:
+      radial-gradient(1100px circle at var(--px) var(--py), rgba(240, 166, 63, 0.07), transparent 60%),
+      var(--bg-sunken);
     border-block: 1px solid var(--line);
   }
 
-  .story__inner { max-width: 74ch; }
-
   .story__heading {
     font-size: var(--step-3);
-    max-width: 20ch;
+    max-width: 22ch;
+    letter-spacing: -0.045em;
   }
 
-  .story__body { margin-top: var(--sp-4); }
+  .sw { display: inline-block; padding-right: 0.26em; }
 
-  .story__body p {
+  .story__grid {
+    margin-top: var(--sp-6);
+    display: grid;
+    gap: var(--sp-5);
+  }
+
+  .story__cols p {
     color: var(--text-muted);
     font-size: var(--step-1);
+    max-width: 54ch;
   }
 
-  .story__body p + p { margin-top: var(--sp-3); }
+  .story__cols p + p { margin-top: var(--sp-4); }
 
-  .story__note {
-    margin-top: var(--sp-5);
-    padding-left: var(--sp-4);
-    border-left: 2px solid var(--accent);
-    color: var(--text) !important;
-    font-size: var(--step-1) !important;
+  .story__noteCore {
+    padding: var(--sp-5);
+    display: grid;
+    gap: var(--sp-3);
+  }
+
+  .story__quote {
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--accent);
+    opacity: 0.6;
+  }
+
+  .story__noteCore p {
+    font-size: var(--step-1);
+    letter-spacing: -0.015em;
+  }
+
+  @media (min-width: 900px) {
+    .story__grid { grid-template-columns: 1.25fr 0.75fr; gap: var(--sp-6); align-items: start; }
+    .story__note { position: sticky; top: 6rem; }
   }
 </style>

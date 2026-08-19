@@ -5,50 +5,87 @@ interface Props {
 const { approach } = Astro.props;
 ---
 
-<section class="section" id="approach">
-  <div class="container">
-    <h2 class="apr__heading">{approach.heading}</h2>
+<!-- Composición partida: el título queda fijo a la izquierda mientras los pasos
+     pasan por la derecha. Es el único lugar del sitio donde algo se ancla. -->
+<section class="section apr" id="approach">
+  <div class="container apr__grid">
+    <div class="apr__side">
+      <h2 class="apr__title">{approach.heading}</h2>
+      <p class="apr__hint mono">{String(approach.steps.length).padStart(2, '0')}</p>
+    </div>
 
-    <dl class="apr__list">
-      {approach.steps.map((step) => (
-        <div class="apr__row reveal">
-          <dt class="apr__title">{step.title}</dt>
-          <dd class="apr__body">{step.body}</dd>
-        </div>
+    <ol class="apr__list">
+      {approach.steps.map((step, i) => (
+        <li class="apr__step lit reveal" style={`--i:${i}`} data-lit>
+          <span class="apr__num mono" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <div>
+            <h3 class="apr__stepTitle">{step.title}</h3>
+            <p class="apr__stepBody">{step.body}</p>
+          </div>
+        </li>
       ))}
-    </dl>
+    </ol>
   </div>
 </section>
 
 <style>
-  .apr__heading { font-size: var(--step-3); margin-bottom: var(--sp-5); }
-
-  .apr__list { border-top: 1px solid var(--line); }
-
-  .apr__row {
-    display: grid;
-    gap: var(--sp-2);
-    padding-block: var(--sp-4);
-    border-bottom: 1px solid var(--line);
-  }
+  .apr__grid { display: grid; gap: var(--sp-6); }
 
   .apr__title {
-    font-weight: 500;
-    font-size: var(--step-1);
-    letter-spacing: -0.015em;
+    font-size: var(--step-3);
+    letter-spacing: -0.045em;
   }
 
-  .apr__body {
+  .apr__hint {
+    margin-top: var(--sp-3);
+    font-size: 0.72rem;
+    letter-spacing: 0.24em;
+    color: var(--text-dim);
+  }
+
+  .apr__list {
+    list-style: none;
     margin: 0;
-    color: var(--text-muted);
-    max-width: 62ch;
+    padding: 0;
+    display: grid;
+    gap: 1px;
+    background: var(--line);
+    border-block: 1px solid var(--line);
   }
 
-  @media (min-width: 800px) {
-    .apr__row {
-      grid-template-columns: 1fr 1.6fr;
-      gap: var(--sp-5);
-      padding-block: var(--sp-5);
-    }
+  .apr__step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--sp-4);
+    align-items: start;
+    padding: var(--sp-5) var(--sp-3);
+    background: var(--bg);
+    transition: background-color 0.6s var(--ease);
+  }
+
+  .apr__step:hover { background: var(--bg-raised); }
+
+  .apr__num {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    padding-top: 0.45rem;
+  }
+
+  .apr__stepTitle {
+    font-size: var(--step-2);
+    letter-spacing: -0.03em;
+  }
+
+  .apr__stepBody {
+    margin-top: var(--sp-2);
+    color: var(--text-muted);
+    max-width: 52ch;
+  }
+
+  @media (min-width: 900px) {
+    .apr__grid { grid-template-columns: 0.8fr 1.2fr; gap: var(--sp-7); align-items: start; }
+    .apr__side { position: sticky; top: 7rem; }
+    .apr__step { padding: var(--sp-6) var(--sp-4); gap: var(--sp-5); }
   }
 </style>

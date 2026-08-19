@@ -5,6 +5,7 @@ import Hero from './Hero.astro';
 import ProofBar from './ProofBar.astro';
 import WorkGrid from './WorkGrid.astro';
 import Story from './Story.astro';
+import Marquee from './Marquee.astro';
 import Approach from './Approach.astro';
 import About from './About.astro';
 import Contact from './Contact.astro';
@@ -26,9 +27,10 @@ const formAction = lang === 'en' ? '/thanks/' : '/es/gracias/';
     <ProofBar items={t.proof} />
     <WorkGrid work={t.work} />
     <Story story={t.story} />
+    <Marquee items={t.marquee} />
     <Approach approach={t.approach} />
     <About about={t.about} cvHref="/cv/Juan-Furfuri-WordPress-Developer.pdf" />
     <Contact contact={t.contact} action={formAction} />
   </main>
-  <SiteFooter footer={t.footer} />
+  <SiteFooter footer={t.footer} base={base} />
 </BaseLayout>
